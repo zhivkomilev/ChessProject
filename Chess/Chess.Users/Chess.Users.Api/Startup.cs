@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Chess.UsersService.Data;
 using Microsoft.EntityFrameworkCore;
+using Chess.Users.DataAccess;
+using Chess.Users.DataAccess.Repositories;
 
 namespace Chess.UsersService
 {
@@ -33,6 +26,8 @@ namespace Chess.UsersService
             {
                 options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }
 

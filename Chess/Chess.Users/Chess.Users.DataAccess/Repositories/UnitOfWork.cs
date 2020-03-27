@@ -1,12 +1,10 @@
-﻿using Chess.Core.DataAccess.Repositories;
-using Chess.Core.DataAccess.UnitOfWork;
-using Chess.UsersService.Data;
+﻿using Chess.Users.DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chess.UsersService.DataAccess
+namespace Chess.Users.DataAccess.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -19,18 +17,19 @@ namespace Chess.UsersService.DataAccess
             _dbContext = dbContext;
         }
 
-        public async Task<TRepositoryInterface> RepositoryAsync<TRepositoryInterface>()
-            where TRepositoryInterface : IRepository
+        public async Task<TRepositoryType> GetRepositoryAsync<TRepositoryType, TEntityType>()
+            where TRepositoryType : IRepository
+            where TEntityType: class, IBaseEntity
         {
-            var repoType = typeof(TRepositoryInterface);
+            var repoType = typeof(TRepositoryType);
 
             if (!_repositories.ContainsKey(repoType))
             {
-                var repo = (TRepositoryInterface)Activator.CreateInstance(typeof(TRepositoryInterface), new object[] { _dbContext });
+                var repo = (TRepositoryType)Activator.CreateInstance(typeof(TRepositoryType), new object[] { _dbContext.Set<TEntityType>() });
                 _repositories.Add(repoType, repo);
             }
 
-            return await Task.FromResult((TRepositoryInterface)_repositories[repoType]);
+            return await Task.FromResult((TRepositoryType)_repositories[repoType]);
         }
 
         public async Task<int> CommitAsync()

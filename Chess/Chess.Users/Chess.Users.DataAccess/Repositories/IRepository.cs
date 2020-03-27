@@ -1,4 +1,4 @@
-﻿namespace Chess.Core.DataAccess.Repositories
+﻿namespace Chess.Users.DataAccess.Repositories
 {
     public interface IRepository
     {

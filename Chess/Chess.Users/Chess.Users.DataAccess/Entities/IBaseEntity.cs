@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Chess.Core.Entities
+namespace Chess.Users.DataAccess.Entities
 {
     public interface IBaseEntity
     {
-        string Id { get; set; }
+        int Id { get; set; }
 
         DateTime CreatedDate { get; set; }
 
