@@ -6,6 +6,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Chess.Users.DataAccess;
 using Chess.Users.DataAccess.Repositories;
+using Chess.Users.DataAccess.Repositories.Interfaces;
+using Chess.Users.Utilities;
+using Chess.Users.Utilities.Interfaces;
+using AutoMapper;
+using Chess.Users.Services.Infrastructure;
+using Chess.Users.Services.EntityServices;
+using Chess.Users.Services.EntityServices.Interfaces;
 
 namespace Chess.UsersService
 {
@@ -27,7 +34,19 @@ namespace Chess.UsersService
                 options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
             });
 
+            #region Singleton registrations
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+            #endregion
+
+            #region Scoped registrations
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUserService, UserService>();
+            #endregion
+
+            #region AutoMapper
+            services.AddAutoMapper(typeof(ServiceMappingProfile));
+            #endregion
+
 
         }
 

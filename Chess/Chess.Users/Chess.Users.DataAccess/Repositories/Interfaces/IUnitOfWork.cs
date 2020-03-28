@@ -2,13 +2,13 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.Users.DataAccess.Repositories
+namespace Chess.Users.DataAccess.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
         Task<TRepositoryType> GetRepositoryAsync<TRepositoryType, TEntityType>()
-            where TRepositoryType : IRepository
-            where TEntityType : class, IBaseEntity;
+            where TEntityType : class, IBaseEntity
+            where TRepositoryType : BaseRepository<TEntityType>;
 
         Task RollbackAsync();
 

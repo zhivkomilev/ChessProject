@@ -1,6 +1,6 @@
 ﻿using Chess.Users.DataAccess.Entities;
+using Chess.Users.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.DataAccess.Repositories
@@ -10,19 +10,15 @@ namespace Chess.Users.DataAccess.Repositories
     {
         protected readonly DbSet<TEntity> _dbSet;
 
-        public BaseRepository(DbSet<TEntity> dbset)
-        {
-            _dbSet = dbset;
-        }
+        protected BaseRepository(DbSet<TEntity> dbset)
+            => _dbSet = dbset;
 
         public async Task<TEntity> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
+            => await _dbSet.FindAsync(id);
 
         public async Task SaveAsync(TEntity entity)
         {
-            if (entity.Id > 0)
+            if (entity.Id != default)
             {
                 await UpdateAsync(entity);
             }
@@ -34,20 +30,11 @@ namespace Chess.Users.DataAccess.Repositories
 
         private async Task UpdateAsync(TEntity entity)
         {
-            entity.LatestUpdateDate = DateTime.Now;
-
             _dbSet.Update(entity);
-
             await Task.CompletedTask;
         }
 
         private async Task InsertAsync(TEntity entity)
-        {
-            entity.CreatedDate = DateTime.Now;
-            entity.LatestUpdateDate = DateTime.Now;
-
-            await _dbSet.AddAsync(entity);
-        }
-
+            => await _dbSet.AddAsync(entity);
     }
 }

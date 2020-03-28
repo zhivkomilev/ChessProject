@@ -9,6 +9,5 @@ namespace Chess.Users.DataAccess
             : base(options) { }
 
         public DbSet<User> Users { get; set; }
-
     }
 }

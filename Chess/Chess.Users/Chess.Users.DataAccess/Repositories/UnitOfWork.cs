@@ -1,4 +1,5 @@
 ﻿using Chess.Users.DataAccess.Entities;
+using Chess.Users.DataAccess.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,18 @@ namespace Chess.Users.DataAccess.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly UsersDbContext _dbContext;
-        private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _repositories;
         private bool disposed;
 
         public UnitOfWork(UsersDbContext dbContext)
         {
             _dbContext = dbContext;
+            _repositories = new Dictionary<Type, object>();
         }
 
         public async Task<TRepositoryType> GetRepositoryAsync<TRepositoryType, TEntityType>()
-            where TRepositoryType : IRepository
-            where TEntityType: class, IBaseEntity
+            where TRepositoryType : BaseRepository<TEntityType>
+            where TEntityType : class, IBaseEntity
         {
             var repoType = typeof(TRepositoryType);
 
@@ -33,13 +35,18 @@ namespace Chess.Users.DataAccess.Repositories
         }
 
         public async Task<int> CommitAsync()
+            => await _dbContext.SaveChangesAsync();
+        
+        public async Task RollbackAsync()
         {
-            return await _dbContext.SaveChangesAsync();
+            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
+
+            await Task.CompletedTask;
         }
+
+        #region Dispose pattern
         public void Dispose()
-        {
-            Dispose(true);
-        }
+            => Dispose(true);
 
         private void Dispose(bool disposing)
         {
@@ -48,11 +55,6 @@ namespace Chess.Users.DataAccess.Repositories
             _dbContext.Dispose();
             disposed = true;
         }
-        public async Task RollbackAsync()
-        {
-            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
-
-            await Task.CompletedTask;
-        }
+        #endregion
     }
 }

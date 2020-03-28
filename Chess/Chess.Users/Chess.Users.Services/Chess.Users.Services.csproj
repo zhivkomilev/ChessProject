@@ -1,7 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Users.DataAccess\Chess.Users.DataAccess.csproj" />
+    <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
+    <ProjectReference Include="..\Chess.Users.Utilities\Chess.Users.Utilities.csproj" />
+  </ItemGroup>
 
 </Project>

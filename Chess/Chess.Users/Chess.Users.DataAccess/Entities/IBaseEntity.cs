@@ -4,7 +4,7 @@ namespace Chess.Users.DataAccess.Entities
 {
     public interface IBaseEntity
     {
-        int Id { get; set; }
+        Guid Id { get; set; }
 
         DateTime CreatedDate { get; set; }
 
