@@ -3,7 +3,7 @@ using System;
 
 namespace Chess.Users.Models.EntityModels.UserModels
 {
-    public class UserModel : IUserModel
+    public class UserModel : BaseModel, IUserModel
     {
         public Guid Id { get; set; }
         public string Username { get; set; }

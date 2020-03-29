@@ -13,7 +13,6 @@ namespace Chess.Users.Services.EntityServices
         public UserService(IUnitOfWork unitOfWork, 
             IDateTimeProvider dateTimeProvider, 
             IMapper mapper) 
-            : base(unitOfWork, dateTimeProvider, mapper)
-        { }
+            : base(unitOfWork, dateTimeProvider, mapper) { }
     }
 }

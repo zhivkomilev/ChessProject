@@ -1,4 +1,5 @@
 ﻿using Chess.Users.DataAccess.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.DataAccess.Repositories.Interfaces
@@ -6,7 +7,7 @@ namespace Chess.Users.DataAccess.Repositories.Interfaces
     public interface IBaseRepository<T>
         where T : IBaseEntity
     {
-        Task<T> GetByIdAsync(int id);
+        Task<T> GetByIdAsync(Guid id);
 
         Task SaveAsync(T entity);
     }

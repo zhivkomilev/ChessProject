@@ -3,14 +3,16 @@ using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories;
 using Chess.Users.DataAccess.Repositories.Interfaces;
 using Chess.Users.Models.EntityModels;
+using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Utilities.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services
 {
-    public abstract class BaseEntityService<TEntity, TModel, TRepositoryType>
+    public abstract class BaseEntityService<TEntity, TModel, TRepositoryType> : IBaseEntityService<TEntity, TModel, TRepositoryType>
         where TEntity: class, IBaseEntity
-        where TModel: class, IBaseModel
+        where TModel: BaseModel
         where TRepositoryType: BaseRepository<TEntity>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,7 +28,15 @@ namespace Chess.Users.Services
             _mapper = mapper;
         }
         
-        public async Task Insert(TModel model)
+        public async Task<TModel> GetByIdAsync(Guid id)
+        {
+            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
+            var entity = await repo.GetByIdAsync(id);
+
+            return _mapper.Map<TModel>(entity);
+        }
+
+        public async Task InsertAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
@@ -36,7 +46,7 @@ namespace Chess.Users.Services
             await repo.SaveAsync(entity);
         }
 
-        public async Task Update(TModel model)
+        public async Task UpdateAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeUpdate(entity);

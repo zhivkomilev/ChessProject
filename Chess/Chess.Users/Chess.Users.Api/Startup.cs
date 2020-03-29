@@ -13,6 +13,7 @@ using AutoMapper;
 using Chess.Users.Services.Infrastructure;
 using Chess.Users.Services.EntityServices;
 using Chess.Users.Services.EntityServices.Interfaces;
+using Microsoft.OpenApi.Models;
 
 namespace Chess.UsersService
 {
@@ -34,6 +35,12 @@ namespace Chess.UsersService
                 options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
             });
 
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
+            });
+
             #region Singleton registrations
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             #endregion
@@ -46,8 +53,6 @@ namespace Chess.UsersService
             #region AutoMapper
             services.AddAutoMapper(typeof(ServiceMappingProfile));
             #endregion
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,9 +77,8 @@ namespace Chess.UsersService
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chess Users API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chess Users API v1");
             });
-
         }
     }
 }

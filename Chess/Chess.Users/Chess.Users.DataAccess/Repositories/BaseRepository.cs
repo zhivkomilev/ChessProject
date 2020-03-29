@@ -1,6 +1,7 @@
 ﻿using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.DataAccess.Repositories
@@ -13,7 +14,7 @@ namespace Chess.Users.DataAccess.Repositories
         protected BaseRepository(DbSet<TEntity> dbset)
             => _dbSet = dbset;
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
             => await _dbSet.FindAsync(id);
 
         public async Task SaveAsync(TEntity entity)
