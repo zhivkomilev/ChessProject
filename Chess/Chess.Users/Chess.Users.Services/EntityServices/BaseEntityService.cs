@@ -8,11 +8,11 @@ using Chess.Users.Utilities.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.Users.Services
+namespace Chess.Users.Services.EntityServices
 {
     public abstract class BaseEntityService<TEntity, TModel, TRepositoryType> : IBaseEntityService<TEntity, TModel, TRepositoryType>
         where TEntity: class, IBaseEntity
-        where TModel: BaseModel
+        where TModel: class, IBaseModel
         where TRepositoryType: BaseRepository<TEntity>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -58,6 +58,13 @@ namespace Chess.Users.Services
 
         public async Task SaveChangesAsync()
             => await _unitOfWork.CommitAsync();
+        
+        public async Task DeleteAsync(Guid id)
+        {
+            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
+            
+            await repo.DeleteAsync(id);
+        }
 
         protected virtual void OnBeforeUpdate(TEntity entity)
             => entity.LatestUpdateDate= _dateTimeProvider.UtcNow;

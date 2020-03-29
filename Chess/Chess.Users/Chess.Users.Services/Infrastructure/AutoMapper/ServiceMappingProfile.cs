@@ -2,7 +2,7 @@
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.Models.EntityModels.UserModels;
 
-namespace Chess.Users.Services.Infrastructure
+namespace Chess.Users.Services.Infrastructure.AutoMapper
 {
     public class ServiceMappingProfile : Profile
     {

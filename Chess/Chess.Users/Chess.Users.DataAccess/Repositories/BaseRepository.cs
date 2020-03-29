@@ -17,6 +17,14 @@ namespace Chess.Users.DataAccess.Repositories
         public async Task<TEntity> GetByIdAsync(Guid id)
             => await _dbSet.FindAsync(id);
 
+        public async Task DeleteAsync(Guid id)
+        {
+            var entity = await GetByIdAsync(id);
+            _dbSet.Remove(entity);
+
+            await Task.CompletedTask;
+        }
+
         public async Task SaveAsync(TEntity entity)
         {
             if (entity.Id != default)

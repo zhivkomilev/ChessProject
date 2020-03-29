@@ -9,7 +9,5 @@ namespace Chess.Users.DataAccess.Entities
         DateTime CreatedDate { get; set; }
 
         DateTime LatestUpdateDate { get; set; }
-
-        bool IsDeleted { get; set; }
     }
 }

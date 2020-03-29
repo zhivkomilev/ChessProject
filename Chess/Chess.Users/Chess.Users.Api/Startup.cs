@@ -5,15 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Chess.Users.DataAccess;
-using Chess.Users.DataAccess.Repositories;
-using Chess.Users.DataAccess.Repositories.Interfaces;
-using Chess.Users.Utilities;
-using Chess.Users.Utilities.Interfaces;
 using AutoMapper;
-using Chess.Users.Services.Infrastructure;
-using Chess.Users.Services.EntityServices;
-using Chess.Users.Services.EntityServices.Interfaces;
 using Microsoft.OpenApi.Models;
+using Chess.Users.Services.Infrastructure.AutoMapper;
+using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
+using Chess.Users.Services.Infrastructure.Services;
+using Chess.Users.Utilities.Infrastructure;
 
 namespace Chess.UsersService
 {
@@ -41,14 +38,9 @@ namespace Chess.UsersService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
             });
 
-            #region Singleton registrations
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-            #endregion
-
-            #region Scoped registrations
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IUserService, UserService>();
-            #endregion
+            services.AddUnitOfWork();
+            services.AddUserServices();
+            services.AddUtilities();
 
             #region AutoMapper
             services.AddAutoMapper(typeof(ServiceMappingProfile));

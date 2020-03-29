@@ -8,9 +8,10 @@ namespace Chess.Users.Services.EntityServices.Interfaces
 {
     public interface IBaseEntityService<TEntity, TModel, TRepositoryType>
         where TEntity : class, IBaseEntity
-        where TModel : BaseModel
+        where TModel : class, IBaseModel
         where TRepositoryType : BaseRepository<TEntity>
     {
+        Task DeleteAsync(Guid id);
         Task<TModel> GetByIdAsync(Guid id);
         Task InsertAsync(TModel model);
         Task UpdateAsync(TModel model);

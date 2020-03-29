@@ -1,6 +1,5 @@
 ﻿using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories;
-using Chess.Users.DataAccess.Repositories.Interfaces;
 using Chess.Users.Models.EntityModels;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +11,9 @@ namespace Chess.Users.Api.Controllers
     [ApiController]
     public abstract class BaseCrudController<TService, TModel, TEntity, TRepositoryType> : Controller
         where TEntity: class, IBaseEntity
-        where TModel: BaseModel
-        where TRepositoryType: BaseRepository<TEntity>
+        where TModel: class, IBaseModel
         where TService : IBaseEntityService<TEntity, TModel, TRepositoryType>
+        where TRepositoryType: BaseRepository<TEntity>
     {
         protected readonly TService _service;
 
@@ -35,7 +34,7 @@ namespace Chess.Users.Api.Controllers
             await _service.InsertAsync(model);
             await _service.SaveChangesAsync();
             
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost("update")]
@@ -44,7 +43,16 @@ namespace Chess.Users.Api.Controllers
             await _service.UpdateAsync(model);
             await _service.SaveChangesAsync();
             
-            return Ok();
+            return NoContent();
+        }
+
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _service.DeleteAsync(id);
+            await _service.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
