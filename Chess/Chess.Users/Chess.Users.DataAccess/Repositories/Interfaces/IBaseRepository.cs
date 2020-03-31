@@ -9,6 +9,6 @@ namespace Chess.Users.DataAccess.Repositories.Interfaces
     {
         Task<T> GetByIdAsync(Guid id);
 
-        Task SaveAsync(T entity);
+        Task<T> SaveAsync(T entity);
     }
 }

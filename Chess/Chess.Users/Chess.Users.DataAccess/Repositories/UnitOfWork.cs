@@ -34,7 +34,7 @@ namespace Chess.Users.DataAccess.Repositories
             return await Task.FromResult((TRepositoryType)_repositories[repoType]);
         }
 
-        public async Task<int> CommitAsync()
+        public async Task<int> SaveChangesAsync()
             => await _dbContext.SaveChangesAsync();
         
         public async Task RollbackAsync()

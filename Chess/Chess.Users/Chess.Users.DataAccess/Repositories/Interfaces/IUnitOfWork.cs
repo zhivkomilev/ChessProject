@@ -12,6 +12,6 @@ namespace Chess.Users.DataAccess.Repositories.Interfaces
 
         Task RollbackAsync();
 
-        Task<int> CommitAsync();
+        Task<int> SaveChangesAsync();
     }
 }

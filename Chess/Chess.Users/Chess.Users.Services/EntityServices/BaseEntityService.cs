@@ -36,34 +36,39 @@ namespace Chess.Users.Services.EntityServices
             return _mapper.Map<TModel>(entity);
         }
 
-        public async Task InsertAsync(TModel model)
+        public async Task<TModel> InsertAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
-
-            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
-
-            await repo.SaveAsync(entity);
+            model = await SaveEntityAsync(entity);
+            
+            return model;
         }
 
-        public async Task UpdateAsync(TModel model)
+        public async Task<TModel> UpdateAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeUpdate(entity);
+            model = await SaveEntityAsync(entity);
 
-            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
-
-            await repo.SaveAsync(entity);
+            return model;
         }
 
-        public async Task SaveChangesAsync()
-            => await _unitOfWork.CommitAsync();
-        
         public async Task DeleteAsync(Guid id)
         {
             var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
             
             await repo.DeleteAsync(id);
+        }
+        public async Task SaveChangesAsync()
+            => await _unitOfWork.SaveChangesAsync();
+
+        protected virtual async Task<TModel> SaveEntityAsync(TEntity entity)
+        {
+            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
+            var model = _mapper.Map<TModel>(await repo.SaveAsync(entity));
+
+            return model;
         }
 
         protected virtual void OnBeforeUpdate(TEntity entity)

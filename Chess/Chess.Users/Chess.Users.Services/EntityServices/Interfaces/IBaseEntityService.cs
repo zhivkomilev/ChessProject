@@ -13,8 +13,8 @@ namespace Chess.Users.Services.EntityServices.Interfaces
     {
         Task DeleteAsync(Guid id);
         Task<TModel> GetByIdAsync(Guid id);
-        Task InsertAsync(TModel model);
-        Task UpdateAsync(TModel model);
+        Task<TModel> InsertAsync(TModel model);
+        Task<TModel> UpdateAsync(TModel model);
         Task SaveChangesAsync();
     }
 }

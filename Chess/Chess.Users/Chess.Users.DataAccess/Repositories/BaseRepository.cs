@@ -21,29 +21,30 @@ namespace Chess.Users.DataAccess.Repositories
         {
             var entity = await GetByIdAsync(id);
             _dbSet.Remove(entity);
-
-            await Task.CompletedTask;
         }
 
-        public async Task SaveAsync(TEntity entity)
+        public async Task<TEntity> SaveAsync(TEntity entity)
         {
             if (entity.Id != default)
             {
-                await UpdateAsync(entity);
+                return await UpdateAsync(entity);
             }
             else
             {
-                await InsertAsync(entity);
+                return await InsertAsync(entity);
             }
         }
 
-        private async Task UpdateAsync(TEntity entity)
+        private async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            _dbSet.Update(entity);
-            await Task.CompletedTask;
+            var updatedEntity = _dbSet.Update(entity).Entity;
+            return await Task.FromResult(updatedEntity);
         }
 
-        private async Task InsertAsync(TEntity entity)
-            => await _dbSet.AddAsync(entity);
+        private async Task<TEntity> InsertAsync(TEntity entity)
+        {
+            var entityEntry = await _dbSet.AddAsync(entity);
+            return await Task.FromResult(entityEntry.Entity);
+        }
     }
 }
