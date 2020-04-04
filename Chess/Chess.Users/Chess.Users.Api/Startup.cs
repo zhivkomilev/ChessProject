@@ -11,6 +11,12 @@ using Chess.Users.Services.Infrastructure.AutoMapper;
 using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
 using Chess.Users.Utilities.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Chess.Users.Models.SettingsModels;
+using System.Threading.Tasks;
+using System;
 
 namespace Chess.UsersService
 {
@@ -38,10 +44,44 @@ namespace Chess.UsersService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
             });
 
+            var settings = Configuration.GetSection(typeof(ChessUsersSettings).Name).Get<ChessUsersSettings>();
+            services.AddSingleton(settings);
+
+            #region JWT Authentication setup
+            services.AddAuthentication(cfg => 
+            {
+                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    // This should be delete when in production
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = false,
+                        ValidIssuer = settings.JwtSettings.Issuer,
+                        ValidAudiences = settings.JwtSettings.Audiences,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.JwtSettings.Key))
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            // To implement logging
+                        }
+                    };
+                });
+            #endregion
+
             services.AddUnitOfWork();
             services.AddUserServices();
             services.AddUtilities();
-
+            
             #region AutoMapper
             services.AddAutoMapper(typeof(ServiceMappingProfile));
             #endregion
@@ -54,13 +94,13 @@ namespace Chess.UsersService
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            app.UseAuthentication();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

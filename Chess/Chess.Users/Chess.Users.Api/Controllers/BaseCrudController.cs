@@ -2,12 +2,15 @@
 using Chess.Users.DataAccess.Repositories;
 using Chess.Users.Models.EntityModels;
 using Chess.Users.Services.EntityServices.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public abstract class BaseCrudController<TService, TModel, TEntity, TRepositoryType> : Controller
         where TEntity : class, IBaseEntity
@@ -41,7 +44,7 @@ namespace Chess.Users.Api.Controllers
         }
 
         [HttpPost("insert")]
-        public async Task<IActionResult> Insert(TModel model)
+        public virtual async Task<IActionResult> Insert(TModel model)
         {
             try
             {

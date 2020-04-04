@@ -10,9 +10,7 @@ namespace Chess.Users.DataAccess.Repositories.EntityRepositories
         public UserRepository(DbSet<User> dbSet) 
             : base(dbSet) { }
 
-        public async Task<string> GetStringTestAsync()
-        {
-            return await Task.FromResult("Test");
-        }
+        public async Task<User> GetByUsernameAsync(string username)
+            => await _dbSet.SingleOrDefaultAsync(u => u.Username == username);   
     }
 }

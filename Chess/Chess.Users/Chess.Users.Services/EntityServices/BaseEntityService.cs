@@ -15,8 +15,8 @@ namespace Chess.Users.Services.EntityServices
         where TModel: class, IBaseModel
         where TRepositoryType: BaseRepository<TEntity>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IDateTimeProvider _dateTimeProvider;
+        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IDateTimeProvider _dateTimeProvider;
         protected readonly IMapper _mapper;
 
         protected BaseEntityService(IUnitOfWork unitOfWork,

@@ -1,5 +1,6 @@
 ﻿using Chess.Users.Services.EntityServices;
 using Chess.Users.Services.EntityServices.Interfaces;
+using Chess.Users.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Chess.Users.Services.Infrastructure.Services
@@ -10,6 +11,7 @@ namespace Chess.Users.Services.Infrastructure.Services
         {
             #region Scoped registrations
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
             #endregion
         }
     }
