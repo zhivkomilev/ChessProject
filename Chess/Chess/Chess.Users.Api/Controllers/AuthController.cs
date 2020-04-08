@@ -27,7 +27,7 @@ namespace Chess.Users.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var userModel = await _userService.GetByUsernameAsync(loginModel.Username, loginModel.Password);
+            var userModel = await _userService.GetByEmailAsync(loginModel.Email);
 
             if (userModel == default)
             {

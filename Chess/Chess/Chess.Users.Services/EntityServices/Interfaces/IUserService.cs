@@ -8,6 +8,6 @@ namespace Chess.Users.Services.EntityServices.Interfaces
 {
     public interface IUserService : IBaseEntityService<User, UserModel, UserRepository>
     {
-        Task<IUserModel> GetByUsernameAsync(string username, string password);
+        Task<IUserModel> GetByEmailAsync(string email);
     }
 }

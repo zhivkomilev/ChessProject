@@ -6,6 +6,6 @@ namespace Chess.Users.DataAccess.Repositories.EntityRepositories.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-        Task<User> GetByUsernameAsync(string username);
+        Task<User> GetByEmailAsync(string username);
     }
 }

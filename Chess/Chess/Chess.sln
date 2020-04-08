@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Users.Api", "Chess.Us
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Users.DataAccess", "Chess.Users.DataAccess\Chess.Users.DataAccess.csproj", "{404DF6EF-9F13-485B-9042-C46CEE941677}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Users.Utilities", "Chess.Users.Utilities\Chess.Users.Utilities.csproj", "{C3CF046D-5293-4A5A-9681-4DD643F9F065}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Users.Utilities", "Chess.Users.Utilities\Chess.Users.Utilities.csproj", "{C3CF046D-5293-4A5A-9681-4DD643F9F065}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Users.Models", "Chess.Users.Models\Chess.Users.Models.csproj", "{58FABF54-FD79-4970-8787-79A6FB4F84A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Users.Models", "Chess.Users.Models\Chess.Users.Models.csproj", "{58FABF54-FD79-4970-8787-79A6FB4F84A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess.Users", "Chess.Users", "{70A2642C-26EB-47B3-8F4E-A27ED0F289D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6FB553E-A44E-42BA-A605-19DF8F340582} = {70A2642C-26EB-47B3-8F4E-A27ED0F289D5}
+		{D835C5B8-0FA1-45DD-ACD2-300C420E8951} = {70A2642C-26EB-47B3-8F4E-A27ED0F289D5}
+		{404DF6EF-9F13-485B-9042-C46CEE941677} = {70A2642C-26EB-47B3-8F4E-A27ED0F289D5}
+		{C3CF046D-5293-4A5A-9681-4DD643F9F065} = {70A2642C-26EB-47B3-8F4E-A27ED0F289D5}
+		{58FABF54-FD79-4970-8787-79A6FB4F84A7} = {70A2642C-26EB-47B3-8F4E-A27ED0F289D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EFB59D0B-4FB2-467F-8591-72A0E4D6F0EE}

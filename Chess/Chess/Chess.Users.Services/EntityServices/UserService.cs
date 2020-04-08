@@ -18,10 +18,10 @@ namespace Chess.Users.Services.EntityServices
             IMapper mapper) 
             : base(unitOfWork, dateTimeProvider, mapper) { }
 
-        public async Task<IUserModel> GetByUsernameAsync(string username, string password)
+        public async Task<IUserModel> GetByEmailAsync(string email)
         {
             var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
-            var user = await repo.GetByUsernameAsync(username);
+            var user = await repo.GetByEmailAsync(email);
 
             if (user == default)
                 return default;
