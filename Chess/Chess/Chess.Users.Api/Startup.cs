@@ -17,6 +17,9 @@ using System.Text;
 using Chess.Users.Models.SettingsModels;
 using System.Threading.Tasks;
 using System;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Chess.UsersService
 {
@@ -40,16 +43,41 @@ namespace Chess.UsersService
                 options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
             });
 
+            #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+
+                    }
+                });
             });
+            #endregion
 
             services.AddSingleton(_settings);
 
             #region JWT Authentication setup
-            services.AddAuthentication(cfg => 
+            services.AddAuthentication(cfg =>
             {
                 cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -73,10 +101,12 @@ namespace Chess.UsersService
                 });
             #endregion
 
+            #region Dependeny injections
             services.AddUnitOfWork();
             services.AddUserServices();
             services.AddUtilities();
-            
+            #endregion
+
             #region AutoMapper
             services.AddAutoMapper(typeof(ServiceMappingProfile));
             #endregion
