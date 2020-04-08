@@ -5,6 +5,7 @@ using Chess.Users.Services.EntityServices.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -19,9 +20,14 @@ namespace Chess.Users.Api.Controllers
         where TRepositoryType : BaseRepository<TEntity>
     {
         protected readonly TService _service;
+        protected readonly ILogger _logger;
 
-        protected BaseCrudController(TService service)
-            => _service = service;
+        protected BaseCrudController(TService service,
+            ILogger logger)
+        {
+            _service = service;
+            _logger = logger;
+        }
 
         [HttpGet("get")]
         public async Task<IActionResult> Get(Guid id)
@@ -39,7 +45,8 @@ namespace Chess.Users.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(50, ex.Message);
             }
         }
 
@@ -61,7 +68,8 @@ namespace Chess.Users.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(50, ex.Message);
             }
         }
 
@@ -83,7 +91,8 @@ namespace Chess.Users.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(50, ex.Message);
             }
         }
 
@@ -104,7 +113,8 @@ namespace Chess.Users.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(50, ex.Message);
             }
         }
     }

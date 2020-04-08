@@ -2,6 +2,7 @@
 using Chess.Users.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Chess.Users.DataAccess.Repositories
@@ -16,6 +17,9 @@ namespace Chess.Users.DataAccess.Repositories
 
         public async Task<TEntity> GetByIdAsync(Guid id)
             => await _dbSet.FindAsync(id);
+
+        public async Task<bool> AnyAsync(Expression<Func<TEntity,bool>> predicate) 
+            => await _dbSet.AnyAsync(predicate);
 
         public async Task DeleteAsync(Guid id)
         {

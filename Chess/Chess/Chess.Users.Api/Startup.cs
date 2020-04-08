@@ -22,9 +22,11 @@ namespace Chess.UsersService
 {
     public class Startup
     {
+        private readonly ChessUsersSettings _settings;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _settings = Configuration.GetSection(typeof(ChessUsersSettings).Name).Get<ChessUsersSettings>();
         }
 
         public IConfiguration Configuration { get; }
@@ -44,14 +46,14 @@ namespace Chess.UsersService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
             });
 
-            var settings = Configuration.GetSection(typeof(ChessUsersSettings).Name).Get<ChessUsersSettings>();
-            services.AddSingleton(settings);
+            services.AddSingleton(_settings);
 
             #region JWT Authentication setup
             services.AddAuthentication(cfg => 
             {
                 cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
                 .AddJwtBearer(options =>
                 {
@@ -64,16 +66,9 @@ namespace Chess.UsersService
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = false,
-                        ValidIssuer = settings.JwtSettings.Issuer,
-                        ValidAudiences = settings.JwtSettings.Audiences,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.JwtSettings.Key))
-                    };
-                    options.Events = new JwtBearerEvents
-                    {
-                        OnAuthenticationFailed = context =>
-                        {
-                            // To implement logging
-                        }
+                        ValidIssuer = _settings.JwtSettings.Issuer,
+                        ValidAudiences = _settings.JwtSettings.Audiences,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSettings.Key))
                     };
                 });
             #endregion
@@ -99,8 +94,8 @@ namespace Chess.UsersService
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseAuthentication();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

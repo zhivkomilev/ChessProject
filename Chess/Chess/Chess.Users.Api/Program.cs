@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Chess.UsersService
 {
@@ -15,6 +16,16 @@ namespace Chess.UsersService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddFile(@"Logs/Chess-Users-{Date}.txt");
+                    logging.AddEventLog(cfg =>
+                    {
+                        cfg.LogName = "Chess.UsersLogs";
+                        cfg.SourceName = "Chess.Users";
+                    });
                 });
     }
 }

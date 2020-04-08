@@ -8,6 +8,18 @@ namespace Chess.Users.Services.EntityServices.Interfaces
 {
     public interface IUserService : IBaseEntityService<User, UserModel, UserRepository>
     {
+        /// <summary>
+        /// Gets a user model by a given email.
+        /// </summary>
+        /// <param name="email">An email of an exsiting user</param>
+        /// <returns>Returns the user with the given email.</returns>
         Task<IUserModel> GetByEmailAsync(string email);
+
+        /// <summary>
+        /// Checks if a user if this email already exists.
+        /// </summary>
+        /// <param name="email">The email of the new user.</param>
+        /// <returns>True of False depending on whether a user with this email already exists.</returns>
+        Task<bool> DoesUserExistAsync(string email);
     }
 }

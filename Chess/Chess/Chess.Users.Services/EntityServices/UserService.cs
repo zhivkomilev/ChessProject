@@ -40,5 +40,12 @@ namespace Chess.Users.Services.EntityServices
 
             entity.Password = PasswordHasher.HashPassword(entity.Password);
         }
+
+        public async Task<bool> DoesUserExistAsync(string email)
+        {
+            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
+
+            return await repo.AnyAsync(u => u.Email == email);
+        }
     }
 }
