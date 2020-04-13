@@ -13,7 +13,7 @@ namespace Chess.UsersService.Controllers.EntityControllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    [Route("users")]
+    [Route("api/users")]
     public class UsersController 
         : BaseCrudController<IUserService, UserModel, User, UserRepository>
     {

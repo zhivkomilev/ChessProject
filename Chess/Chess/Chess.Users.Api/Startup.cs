@@ -15,11 +15,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Chess.Users.Models.SettingsModels;
-using System.Threading.Tasks;
-using System;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Chess.UsersService
 {
@@ -68,7 +63,6 @@ namespace Chess.UsersService
                                 }
                             },
                             new string[] {}
-
                     }
                 });
             });

@@ -12,7 +12,7 @@ namespace Chess.Users.Api.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly ITokenService _tokenService;
