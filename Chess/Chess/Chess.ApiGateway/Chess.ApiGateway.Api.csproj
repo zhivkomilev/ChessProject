@@ -5,12 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Content Remove="configuration.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ocelot" Version="15.0.6" />
+    <None Include="configuration.json" />
   </ItemGroup>
-
 
 </Project>
