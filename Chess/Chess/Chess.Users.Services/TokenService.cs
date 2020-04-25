@@ -1,5 +1,4 @@
-﻿using Chess.Users.Models.EntityModels.UserModels;
-using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+﻿using Chess.Users.Models.EntityModels.UserModels.Interfaces;
 using Chess.Users.Models.SettingsModels;
 using Chess.Users.Services.Interfaces;
 using Chess.Users.Utilities.Interfaces;
