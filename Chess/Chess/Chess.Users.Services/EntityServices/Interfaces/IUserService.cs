@@ -2,6 +2,7 @@
 using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.Models.EntityModels.UserModels;
 using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
@@ -21,5 +22,11 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// <param name="email">The email of the new user.</param>
         /// <returns>True of False depending on whether a user with this email already exists.</returns>
         Task<bool> DoesUserExistAsync(string email);
+
+        /// <summary>
+        /// Send a password change email
+        /// </summary>
+        /// <param name="userId">User which requested the password change.</param>
+        Task RequestPasswordChange(Guid userId);
     }
 }

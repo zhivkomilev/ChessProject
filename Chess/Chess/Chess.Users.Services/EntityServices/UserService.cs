@@ -7,6 +7,7 @@ using Chess.Users.Models.EntityModels.UserModels.Interfaces;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Utilities;
 using Chess.Users.Utilities.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices
@@ -45,6 +46,11 @@ namespace Chess.Users.Services.EntityServices
             base.OnBeforeInsert(entity);
 
             entity.Password = PasswordHasher.HashPassword(entity.Password);
+        }
+
+        public Task RequestPasswordChange(Guid userId)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -28,5 +28,6 @@ namespace Chess.UsersService.Controllers.EntityControllers
 
             return await base.Insert(model);
         }
+
     }
 }
