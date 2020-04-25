@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Chess.Users.Services
 {
@@ -24,7 +25,7 @@ namespace Chess.Users.Services
             _dateTime = dateTime;
         }
 
-        public string GenerateJWT(IUserModel userInfo)
+        public async Task<string> GenerateJwtAsync(IUserModel userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -48,7 +49,7 @@ namespace Chess.Users.Services
                 expires: _dateTime.Now.Add(TimeSpan.FromMinutes(_settings.ExpirationInMinutes)),
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return await Task.FromResult(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }

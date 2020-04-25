@@ -29,6 +29,12 @@ namespace Chess.Users.Services.EntityServices
             return _mapper.Map<UserModel>(user);
         }
 
+        public async Task<bool> DoesUserExistAsync(string email)
+        {
+            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
+
+            return await repo.AnyAsync(u => u.Email == email);
+        }
         protected override void OnBeforeUpdate(User entity)
         {
             base.OnBeforeUpdate(entity);
@@ -39,13 +45,6 @@ namespace Chess.Users.Services.EntityServices
             base.OnBeforeInsert(entity);
 
             entity.Password = PasswordHasher.HashPassword(entity.Password);
-        }
-
-        public async Task<bool> DoesUserExistAsync(string email)
-        {
-            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
-
-            return await repo.AnyAsync(u => u.Email == email);
         }
     }
 }

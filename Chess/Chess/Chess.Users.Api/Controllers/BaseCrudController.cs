@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public abstract class BaseCrudController<TService, TModel, TEntity, TRepositoryType> : Controller
         where TEntity : class, IBaseEntity
@@ -46,7 +45,7 @@ namespace Chess.Users.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return StatusCode(50, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -69,7 +68,7 @@ namespace Chess.Users.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return StatusCode(50, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -83,7 +82,7 @@ namespace Chess.Users.Api.Controllers
 
                 var updatedModel = await _service.UpdateAsync(model);
                 if (updatedModel == null)
-                    return BadRequest();
+                    return StatusCode(500, $"Update failed.");
 
                 await _service.SaveChangesAsync();
 
@@ -92,7 +91,7 @@ namespace Chess.Users.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return StatusCode(50, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -114,7 +113,7 @@ namespace Chess.Users.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return StatusCode(50, ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }

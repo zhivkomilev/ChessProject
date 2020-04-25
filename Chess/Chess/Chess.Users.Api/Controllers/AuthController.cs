@@ -2,7 +2,6 @@
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Interfaces;
 using Chess.Users.Utilities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Api.Controllers
 {
-    [Authorize]
     [ApiController]
-    [Route("auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly ITokenService _tokenService;
@@ -28,7 +26,6 @@ namespace Chess.Users.Api.Controllers
             _logger = logger;
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
@@ -41,7 +38,7 @@ namespace Chess.Users.Api.Controllers
                 if (!PasswordHasher.VerifyPassword(loginModel.Password, userModel.Password))
                     return StatusCode(401, $"Wrong password.");
                 
-                var token = _tokenService.GenerateJWT(userModel);
+                var token = await _tokenService.GenerateJwtAsync(userModel);
 
                 return Ok(token);
             }

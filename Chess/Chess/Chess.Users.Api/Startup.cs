@@ -15,11 +15,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Chess.Users.Models.SettingsModels;
-using System.Threading.Tasks;
-using System;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Chess.UsersService
 {
@@ -48,58 +43,10 @@ namespace Chess.UsersService
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Chess Users API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Type = SecuritySchemeType.ApiKey,
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Name = "Authorization"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                          new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new string[] {}
-
-                    }
-                });
             });
             #endregion
 
             services.AddSingleton(_settings);
-
-            #region JWT Authentication setup
-            services.AddAuthentication(cfg =>
-            {
-                cfg.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                cfg.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                cfg.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
-                {
-                    // This should be delete when in production
-                    options.RequireHttpsMetadata = false;
-                    options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = false,
-                        ValidIssuer = _settings.JwtSettings.Issuer,
-                        ValidAudiences = _settings.JwtSettings.Audiences,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSettings.Key))
-                    };
-                });
-            #endregion
 
             #region Dependeny injections
             services.AddUnitOfWork();
@@ -122,9 +69,6 @@ namespace Chess.UsersService
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
-            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
