@@ -11,9 +11,6 @@ using Chess.Users.Services.Infrastructure.AutoMapper;
 using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
 using Chess.Users.Utilities.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Chess.Users.Models.SettingsModels;
 
 namespace Chess.UsersService

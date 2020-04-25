@@ -11,7 +11,7 @@ namespace Chess.UsersService.Controllers.EntityControllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UsersController 
+    public class UsersController
         : BaseCrudController<IUserService, UserModel, User, UserRepository>
     {
         public UsersController(IUserService service,
