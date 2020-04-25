@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public abstract class BaseCrudController<TService, TModel, TEntity, TRepositoryType> : Controller
         where TEntity : class, IBaseEntity
