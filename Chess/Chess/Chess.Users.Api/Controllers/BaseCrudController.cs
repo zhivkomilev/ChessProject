@@ -2,8 +2,6 @@
 using Chess.Users.DataAccess.Repositories;
 using Chess.Users.Models.EntityModels;
 using Chess.Users.Services.EntityServices.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -116,5 +114,20 @@ namespace Chess.Users.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        #region Dispose pattern
+        private bool _disposed = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+
+            if (_disposed || !disposing) return;
+
+            _service.Dispose();
+            _disposed = true;
+        }
+        #endregion
     }
 }

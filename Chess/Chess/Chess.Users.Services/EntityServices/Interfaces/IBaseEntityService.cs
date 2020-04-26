@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
 {
-    public interface IBaseEntityService<TEntity, TModel, TRepositoryType>
+    public interface IBaseEntityService<TEntity, TModel, TRepositoryType> : IDisposable
         where TEntity : class, IBaseEntity
         where TModel : class, IBaseModel
         where TRepositoryType : BaseRepository<TEntity>

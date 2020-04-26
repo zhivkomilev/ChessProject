@@ -76,5 +76,21 @@ namespace Chess.Users.Services.EntityServices
         
         protected virtual void OnBeforeInsert(TEntity entity)
            => entity.LatestUpdateDate = entity.CreatedDate = _dateTimeProvider.UtcNow;
+
+        #region IDisposable Support
+        private bool _disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed || !disposing)
+                return;
+
+            _unitOfWork.Dispose();
+            _disposed = true;
+        }
+
+        public void Dispose()
+            => Dispose(true);
+        #endregion
     }
 }

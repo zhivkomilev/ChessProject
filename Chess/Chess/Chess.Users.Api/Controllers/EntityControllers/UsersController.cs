@@ -29,5 +29,10 @@ namespace Chess.UsersService.Controllers.EntityControllers
             return await base.Insert(model);
         }
 
+        //[HttpPost("change-password")]
+        //public async Task<IActionResult> ChangePassword(string token)
+        //{
+
+        //}
     }
 }
