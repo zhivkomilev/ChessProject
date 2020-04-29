@@ -30,10 +30,6 @@ namespace Chess.UsersService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<UsersDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
-            });
 
             #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -49,6 +45,10 @@ namespace Chess.UsersService
             services.AddUnitOfWork();
             services.AddUserServices();
             services.AddUtilities();
+            services.AddDbContext<UsersDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"), providerOptions => providerOptions.CommandTimeout(60));
+            });
             #endregion
 
             #region AutoMapper

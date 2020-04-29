@@ -5,6 +5,7 @@ using Chess.Users.DataAccess.Repositories.Interfaces;
 using Chess.Users.Models.EntityModels.UserModels;
 using Chess.Users.Models.EntityModels.UserModels.Interfaces;
 using Chess.Users.Services.EntityServices.Interfaces;
+using Chess.Users.Services.Exceptions;
 using Chess.Users.Utilities;
 using Chess.Users.Utilities.Interfaces;
 using System;
@@ -48,9 +49,21 @@ namespace Chess.Users.Services.EntityServices
             entity.Password = PasswordHasher.HashPassword(entity.Password);
         }
 
-        public Task RequestPasswordChange(Guid userId)
+        public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
-            throw new System.NotImplementedException();
+            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
+            var user = await repo.GetByIdAsync(model.UserId);
+
+            if (!PasswordHasher.VerifyPassword(model.OldPassword, user.Password))
+                throw new ChangePasswordException("Old password is not correct.");
+
+            if (model.NewPassword != model.ConfirmNewPassword)
+                throw new ChangePasswordException("Password do not match");
+
+            user.Password = PasswordHasher.HashPassword(model.NewPassword);
+
+            OnBeforeUpdate(user);
+            await SaveEntityAsync(user);
         }
     }
 }

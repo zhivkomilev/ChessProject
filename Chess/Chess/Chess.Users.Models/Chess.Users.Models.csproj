@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Users.DataAccess\Chess.Users.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

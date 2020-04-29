@@ -10,8 +10,6 @@ namespace Chess.Users.DataAccess
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<ChangePassword> ChangePasswords { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>()
@@ -20,10 +18,6 @@ namespace Chess.Users.DataAccess
 
             builder.Entity<User>()
                 .HasIndex(u => u.Username)
-                .IsUnique();
-
-            builder.Entity<ChangePassword>()
-                .HasIndex(cp => cp.Token)
                 .IsUnique();
         }
     }

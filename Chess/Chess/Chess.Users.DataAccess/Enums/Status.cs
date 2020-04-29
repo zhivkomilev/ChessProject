@@ -3,7 +3,6 @@
     public enum Status
     {
         Pending,
-        Completed,
-        Failed
+        Completed
     }
 }

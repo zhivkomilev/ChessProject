@@ -33,7 +33,7 @@ namespace Chess.Users.Services.EntityServices
             var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
             var entity = await repo.GetByIdAsync(id);
 
-            return _mapper.Map<TModel>(entity);
+            return _mapper.Map<TModel>(entity); ;
         }
 
         public async Task<TModel> InsertAsync(TModel model)

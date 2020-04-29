@@ -30,11 +30,19 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel model)
         {
             var response = await _usersService.Register(model);
 
             return Created(Request.Path.Value, response);
+        }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        {
+            await _usersService.ChangePassword(model);
+
+            return Ok();
         }
     }
 }

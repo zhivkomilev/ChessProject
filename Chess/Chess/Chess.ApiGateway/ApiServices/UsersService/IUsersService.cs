@@ -12,5 +12,8 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
 
         [Get("/get")]
         Task<string> GetById(Guid id);
+
+        [Post("/change-password")]
+        Task ChangePassword(ChangePasswordModel model);
     }
 }

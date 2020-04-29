@@ -1,9 +1,7 @@
-﻿using Chess.Users.Models.EmailModels;
-using Chess.Users.Models.SettingsModels;
+﻿using Chess.Users.Models.SettingsModels;
 using Chess.Users.Services.Interfaces;
 using MailKit.Net.Smtp;
 using MimeKit;
-using MimeKit.Text;
 using System;
 using System.Threading.Tasks;
 
@@ -21,30 +19,14 @@ namespace Chess.Users.Services
             _smtpClient = smtpClient;
         }
 
-        //TODO -> Finish implementing
-        public Task SendAsync(MimeMessage message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task SendChangePasswordEmailAsync(ChangePasswordEmailModel model)
+        public async Task SendAsync(MimeMessage message)
         {
             await ConnectSmtpClientAsync();
-            var message = new MimeMessage();
-            var sender = new MailboxAddress(model.Sender.Name, model.Sender.Email);
-            var reciever = new MailboxAddress(model.Reciever.Name, model.Reciever.Email);
-            
-            message.Sender = sender;
-            message.From.Add(sender);
-            message.To.Add(reciever);
-            message.Body = new TextPart(TextFormat.RichText)
-            {
-                Text = model.Body
-            };
 
-            //TODO -> Finish implementing
+            await _smtpClient.SendAsync(message);
+
+            await _smtpClient.DisconnectAsync(true);
         }
-
         private async Task ConnectSmtpClientAsync()
         {
             await _smtpClient.ConnectAsync(_settings.Smtp.Host, _settings.Smtp.Port, _settings.Smtp.UseSsl);

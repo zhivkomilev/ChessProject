@@ -24,9 +24,8 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         Task<bool> DoesUserExistAsync(string email);
 
         /// <summary>
-        /// Send a password change email
+        /// Changes the current password of a user with a new one
         /// </summary>
-        /// <param name="userId">User which requested the password change.</param>
-        Task RequestPasswordChange(Guid userId);
+        Task ChangePasswordAsync(ChangePasswordModel model);
     }
 }

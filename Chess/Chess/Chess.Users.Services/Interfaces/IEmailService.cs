@@ -6,7 +6,6 @@ namespace Chess.Users.Services.Interfaces
 {
     public interface IEmailService
     {
-        Task SendAsync(MimeMessage message);
-        Task SendChangePasswordEmailAsync(ChangePasswordEmailModel model);
+        Task SendAsync(MimeMessage model);
     }
 }
