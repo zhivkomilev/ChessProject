@@ -1,6 +1,7 @@
 using Chess.ApiGateway.Api.ApiServices;
 using Chess.ApiGateway.Api.ApiServices.UsersService;
 using Chess.ApiGateway.Api.Infrastructure.Settings;
+using Chess.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -101,6 +102,8 @@ namespace Chess.ApiGateway
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -12,6 +12,7 @@ using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
 using Chess.Users.Utilities.Infrastructure;
 using Chess.Users.Models.SettingsModels;
+using Chess.Middlewares;
 
 namespace Chess.UsersService
 {
@@ -63,10 +64,10 @@ namespace Chess.UsersService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

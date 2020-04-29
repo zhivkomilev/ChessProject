@@ -24,7 +24,7 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
         public async Task<IActionResult> Login(LoginModel model)
         {
             var response = await _authService.Login(model);
-            
+
             return Ok(response);
         }
     }
