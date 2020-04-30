@@ -15,28 +15,24 @@ namespace Chess.Users.Services.EntityServices
 {
     public class UserService : BaseEntityService<User, UserModel, UserRepository>, IUserService
     {
-        public UserService(IUnitOfWork unitOfWork, 
-            IDateTimeProvider dateTimeProvider, 
-            IMapper mapper) 
+        public UserService(IUnitOfWork unitOfWork,
+            IDateTimeProvider dateTimeProvider,
+            IMapper mapper)
             : base(unitOfWork, dateTimeProvider, mapper) { }
 
         public async Task<IUserModel> GetByEmailAsync(string email)
         {
-            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
-            var user = await repo.GetByEmailAsync(email);
+            var user = await _repository.GetByEmailAsync(email);
 
             if (user == default)
                 return default;
-            
+
             return _mapper.Map<UserModel>(user);
         }
 
         public async Task<bool> DoesUserExistAsync(string email)
-        {
-            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
+            => await _repository.AnyAsync(u => u.Email == email);
 
-            return await repo.AnyAsync(u => u.Email == email);
-        }
         protected override void OnBeforeUpdate(User entity)
         {
             base.OnBeforeUpdate(entity);
@@ -51,8 +47,7 @@ namespace Chess.Users.Services.EntityServices
 
         public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
-            var repo = await _unitOfWork.GetRepositoryAsync<UserRepository, User>();
-            var user = await repo.GetByIdAsync(model.UserId);
+            var user = await _repository.GetByIdAsync(model.UserId);
 
             if (!PasswordHasher.VerifyPassword(model.OldPassword, user.Password))
                 throw new ChangePasswordException("Old password is not correct.");

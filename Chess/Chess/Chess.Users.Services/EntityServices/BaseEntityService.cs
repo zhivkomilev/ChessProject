@@ -18,6 +18,7 @@ namespace Chess.Users.Services.EntityServices
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IDateTimeProvider _dateTimeProvider;
         protected readonly IMapper _mapper;
+        protected readonly TRepositoryType _repository;
 
         protected BaseEntityService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
@@ -26,12 +27,12 @@ namespace Chess.Users.Services.EntityServices
             _unitOfWork = unitOfWork;
             _dateTimeProvider = dateTimeProvider;
             _mapper = mapper;
+            _repository = _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
         }
         
         public async Task<TModel> GetByIdAsync(Guid id)
         {
-            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
-            var entity = await repo.GetByIdAsync(id);
+            var entity = await _repository.GetByIdAsync(id);
 
             return _mapper.Map<TModel>(entity); ;
         }
@@ -55,18 +56,14 @@ namespace Chess.Users.Services.EntityServices
         }
 
         public async Task DeleteAsync(Guid id)
-        {
-            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
-            
-            await repo.DeleteAsync(id);
-        }
+            =>  await _repository.DeleteAsync(id);
+        
         public async Task SaveChangesAsync()
             => await _unitOfWork.SaveChangesAsync();
 
         protected virtual async Task<TModel> SaveEntityAsync(TEntity entity)
         {
-            var repo = await _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
-            var model = _mapper.Map<TModel>(await repo.SaveAsync(entity));
+            var model = _mapper.Map<TModel>(await _repository.SaveAsync(entity));
 
             return model;
         }
