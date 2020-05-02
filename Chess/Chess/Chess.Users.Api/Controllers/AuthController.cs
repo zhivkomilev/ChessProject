@@ -1,4 +1,5 @@
 ﻿using Chess.Users.Models;
+using Chess.Users.Models.UserModels;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Interfaces;
 using Chess.Users.Utilities;
@@ -29,8 +30,6 @@ namespace Chess.Users.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            try
-            {
                 var userModel = await _userService.GetByEmailAsync(loginModel.Email);
                 if (userModel == default)
                     return NotFound($"No user with email:{loginModel.Email} found.");
@@ -41,12 +40,6 @@ namespace Chess.Users.Api.Controllers
                 var token = await _tokenService.GenerateJwtAsync(userModel);
 
                 return Ok(token);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something went wrong while login was attempted.");
-                return StatusCode(500, ex.Message);
-            }
         }
     }
 }

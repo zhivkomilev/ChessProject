@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Chess.Users.Models.EntityModels.UserModels.Interfaces
+﻿namespace Chess.Users.Models.UserModels.Interfaces
 {
     public interface IUserModel : IBaseModel
     {

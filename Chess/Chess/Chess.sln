@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Chess.Core", "Chess.Core", "{AF3F2886-0AA8-4B7A-A1F9-1A8EE402F22F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess.Middlewares", "Chess.Middlewares\Chess.Middlewares.csproj", "{6653B980-B76F-44EF-961A-EDE96E03D17F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Middlewares", "Chess.Middlewares\Chess.Middlewares.csproj", "{6653B980-B76F-44EF-961A-EDE96E03D17F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

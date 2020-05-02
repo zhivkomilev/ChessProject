@@ -20,4 +20,8 @@
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
+  </ItemGroup>
+
 </Project>

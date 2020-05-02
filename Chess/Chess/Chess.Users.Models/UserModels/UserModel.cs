@@ -1,7 +1,7 @@
-﻿using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+﻿using Chess.Users.Models.UserModels.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace Chess.Users.Models.EntityModels.UserModels
+namespace Chess.Users.Models.UserModels
 {
     public class UserModel : BaseModel, IUserModel
     {

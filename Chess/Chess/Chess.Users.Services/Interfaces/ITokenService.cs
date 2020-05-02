@@ -1,5 +1,4 @@
-﻿using Chess.Users.Models.EntityModels.UserModels;
-using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+﻿using Chess.Users.Models.UserModels.Interfaces;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.Interfaces

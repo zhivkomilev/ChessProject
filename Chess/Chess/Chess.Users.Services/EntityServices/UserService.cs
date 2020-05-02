@@ -2,8 +2,8 @@
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.DataAccess.Repositories.Interfaces;
-using Chess.Users.Models.EntityModels.UserModels;
-using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+using Chess.Users.Models.UserModels;
+using Chess.Users.Models.UserModels.Interfaces;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Exceptions;
 using Chess.Users.Utilities;
@@ -45,7 +45,7 @@ namespace Chess.Users.Services.EntityServices
             entity.Password = PasswordHasher.HashPassword(entity.Password);
         }
 
-        public async Task ChangePasswordAsync(ChangePasswordModel model)
+        public async Task ChangePasswordAsync(IChangePasswordModel model)
         {
             var user = await _repository.GetByIdAsync(model.UserId);
 
@@ -59,6 +59,15 @@ namespace Chess.Users.Services.EntityServices
 
             OnBeforeUpdate(user);
             await SaveEntityAsync(user);
+        }
+
+        public async Task<IUserDetailsModel> GetUserDetailsAsync(Guid userId)
+        {
+            if (userId == default)
+                throw new ArgumentNullException($"userId");
+
+            var userDetailsDto = await _repository.GetUserDetailsAsync(userId);
+            return userDetailsDto;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.EntityRepositories;
-using Chess.Users.Models.EntityModels.UserModels;
-using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+using Chess.Users.Models.UserModels;
+using Chess.Users.Models.UserModels.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -26,6 +26,11 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// <summary>
         /// Changes the current password of a user with a new one
         /// </summary>
-        Task ChangePasswordAsync(ChangePasswordModel model);
+        Task ChangePasswordAsync(IChangePasswordModel model);
+
+        /// <summary>
+        /// Return the user details for a certain user
+        /// </summary>
+        Task<IUserDetailsModel> GetUserDetailsAsync(Guid userId);
     }
 }

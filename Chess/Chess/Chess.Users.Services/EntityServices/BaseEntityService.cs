@@ -2,7 +2,7 @@
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories;
 using Chess.Users.DataAccess.Repositories.Interfaces;
-using Chess.Users.Models.EntityModels;
+using Chess.Users.Models;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Utilities.Interfaces;
 using System;

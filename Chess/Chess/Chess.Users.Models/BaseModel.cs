@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Users.Models.EntityModels
+namespace Chess.Users.Models
 {
     public class BaseModel : IBaseModel
     {

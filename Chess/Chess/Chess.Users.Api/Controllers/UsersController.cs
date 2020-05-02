@@ -1,16 +1,15 @@
 ﻿using Chess.Users.Api.Controllers;
 using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.EntityRepositories;
-using Chess.Users.Models.EntityModels.UserModels;
+using Chess.Users.Models.UserModels;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Exceptions;
-using Chess.Users.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.UsersService.Controllers.EntityControllers
+namespace Chess.UsersService.Controllers
 {
     [ApiController]
     [Route("api/users")]
@@ -25,11 +24,10 @@ namespace Chess.UsersService.Controllers.EntityControllers
         public override async Task<IActionResult> Insert(UserModel model)
         {
             if (await _service.DoesUserExistAsync(model.Email))
-            {
                 return BadRequest($"Email already exists.");
-            }
 
-            return await base.Insert(model);
+            await base.Insert(model);
+            return Ok();
         }
 
         [HttpPost("change-password")]
@@ -49,11 +47,20 @@ namespace Chess.UsersService.Controllers.EntityControllers
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message, ex);
-                return StatusCode(500);
-            }
+        }
+
+        [HttpPost("details")]
+        public async Task<IActionResult> Details(Guid userId)
+        {
+            if (userId == default)
+                return BadRequest();
+
+            var userDetails = await _service.GetUserDetailsAsync(userId);
+
+            if (userDetails == default)
+                return NotFound();
+
+            return Ok(userDetails);
         }
     }
 }

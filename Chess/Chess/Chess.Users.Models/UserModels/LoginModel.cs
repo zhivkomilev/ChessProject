@@ -1,4 +1,4 @@
-﻿namespace Chess.Users.Models
+﻿namespace Chess.Users.Models.UserModels
 {
     public class LoginModel
     {
