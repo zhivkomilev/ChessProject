@@ -49,7 +49,7 @@ namespace Chess.UsersService.Controllers
             }
         }
 
-        [HttpPost("details")]
+        [HttpGet("details")]
         public async Task<IActionResult> Details(Guid userId)
         {
             if (userId == default)
@@ -61,6 +61,19 @@ namespace Chess.UsersService.Controllers
                 return NotFound();
 
             return Ok(userDetails);
+        }
+
+
+        [HttpPost("update-user")]
+        public async Task<IActionResult> UpdateDetails(UserDetailsModel model)
+        {
+            if (model == default)
+                return BadRequest();
+
+            await _service.UpdateDetailsAsync(model);
+            await _service.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Chess.ApiGateway.Api.ApiServices.UsersService.Models
+﻿namespace Chess.Users.Models.UserModels
 {
     public class RegisterModel
     {

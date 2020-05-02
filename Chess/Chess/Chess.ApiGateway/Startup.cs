@@ -1,7 +1,6 @@
-using Chess.ApiGateway.Api.ApiServices;
 using Chess.ApiGateway.Api.ApiServices.UsersService;
 using Chess.ApiGateway.Api.Infrastructure.Settings;
-using Chess.Middlewares;
+using Chess.Core.Middlewares.BuilderExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +31,7 @@ namespace Chess.ApiGateway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-         
+
             #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -88,11 +87,12 @@ namespace Chess.ApiGateway
                 });
             #endregion
 
+            #region Refit Clients
             services.AddRefitClient<IAuthService>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(_settings.ApiUrls.AuthUrl));
-            
             services.AddRefitClient<IUsersService>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(_settings.ApiUrls.UsersServiceUrl));
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +103,7 @@ namespace Chess.ApiGateway
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.AddGlobalExceptionHandling();
             app.UseHttpsRedirection();
 
             app.UseRouting();

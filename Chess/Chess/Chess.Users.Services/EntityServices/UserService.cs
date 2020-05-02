@@ -69,5 +69,19 @@ namespace Chess.Users.Services.EntityServices
             var userDetailsDto = await _repository.GetUserDetailsAsync(userId);
             return userDetailsDto;
         }
+
+        public async Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException($"model");
+
+            var user = await _repository.GetByEmailAsync(model.Email);
+
+            _mapper.Map(model, user);
+            user = await _repository.SaveAsync(user);
+            _mapper.Map(user, model);
+
+            return model;
+        }
     }
 }

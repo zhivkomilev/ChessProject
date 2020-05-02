@@ -1,5 +1,5 @@
 ﻿using Chess.ApiGateway.Api.ApiServices.UsersService;
-using Chess.ApiGateway.Api.ApiServices.UsersService.Models;
+using Chess.Users.Models.UserModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +41,22 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
             await _usersService.ChangePassword(model);
+
+            return Ok();
+        }
+
+        [HttpGet("details")]
+        public async Task<IActionResult> Details(Guid userId)
+        {
+            var response = await _usersService.Details(userId);
+
+            return Ok(response);
+        }
+
+        [HttpPost("update-user")]
+        public async Task<IActionResult> UpdateDetails(UserDetailsModel model)
+        {
+            await _usersService.UpdateDetails(model);
 
             return Ok();
         }

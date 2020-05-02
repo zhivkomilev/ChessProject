@@ -32,5 +32,10 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// Return the user details for a certain user
         /// </summary>
         Task<IUserDetailsModel> GetUserDetailsAsync(Guid userId);
+
+        /// <summary>
+        /// Updates user details
+        /// </summary>
+        Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model);
     }
 }

@@ -1,4 +1,4 @@
-﻿using Chess.ApiGateway.Api.ApiServices.UsersService.Models;
+﻿using Chess.Users.Models.UserModels;
 using Refit;
 using System.Threading.Tasks;
 

@@ -1,4 +1,4 @@
-﻿namespace Chess.Middlewares.Models
+﻿namespace Chess.Core.Middlewares.Models
 {
     public class ErrorModel
     {

@@ -12,7 +12,7 @@ using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
 using Chess.Users.Utilities.Infrastructure;
 using Chess.Users.Models.SettingsModels;
-using Chess.Middlewares;
+using Chess.Core.Middlewares.BuilderExtensions;
 
 namespace Chess.UsersService
 {
@@ -65,7 +65,7 @@ namespace Chess.UsersService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            app.AddGlobalExceptionHandling();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseEndpoints(endpoints =>

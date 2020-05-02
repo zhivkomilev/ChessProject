@@ -1,4 +1,4 @@
-﻿using Chess.Middlewares.Models;
+﻿using Chess.Core.Middlewares.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Refit;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Chess.Middlewares
+namespace Chess.Core.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {
