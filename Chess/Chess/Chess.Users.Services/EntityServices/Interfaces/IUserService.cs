@@ -1,7 +1,9 @@
 ﻿using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.EntityRepositories;
-using Chess.Users.Models.EntityModels.UserModels;
-using Chess.Users.Models.EntityModels.UserModels.Interfaces;
+using Chess.Users.Models.UserModels;
+using Chess.Users.Models.UserModels.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
@@ -21,5 +23,30 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// <param name="email">The email of the new user.</param>
         /// <returns>True of False depending on whether a user with this email already exists.</returns>
         Task<bool> DoesUserExistAsync(string email);
+
+        /// <summary>
+        /// Changes the current password of a user with a new one
+        /// </summary>
+        Task ChangePasswordAsync(IChangePasswordModel model);
+
+        /// <summary>
+        /// Return the user details for a certain user
+        /// </summary>
+        Task<IUserDetailsModel> GetUserDetailsAsync(Guid userId);
+
+        /// <summary>
+        /// Updates user details
+        /// </summary>
+        Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model);
+
+        /// <summary>
+        /// Update the points of a user
+        /// </summary>
+        Task UpdatePointsAsync(IPointsUpdateModel model);
+
+        /// <summary>
+        /// Returns the user details for all non deleted users
+        /// </summary>
+        Task<IEnumerable<IUserDetailsModel>> GetAllUserDetailsAsync();
     }
 }

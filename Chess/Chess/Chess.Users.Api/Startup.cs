@@ -11,10 +11,8 @@ using Chess.Users.Services.Infrastructure.AutoMapper;
 using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
 using Chess.Users.Utilities.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Chess.Users.Models.SettingsModels;
+using Chess.Core.Middlewares.BuilderExtensions;
 
 namespace Chess.UsersService
 {
@@ -33,10 +31,6 @@ namespace Chess.UsersService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<UsersDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"));
-            });
 
             #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -52,6 +46,10 @@ namespace Chess.UsersService
             services.AddUnitOfWork();
             services.AddUserServices();
             services.AddUtilities();
+            services.AddDbContext<UsersDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"), providerOptions => providerOptions.CommandTimeout(60));
+            });
             #endregion
 
             #region AutoMapper
@@ -66,10 +64,10 @@ namespace Chess.UsersService
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.AddGlobalExceptionHandling();
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

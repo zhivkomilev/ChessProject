@@ -6,7 +6,7 @@ namespace Chess.Users.DataAccess.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task<TRepositoryType> GetRepositoryAsync<TRepositoryType, TEntityType>()
+        TRepositoryType GetRepositoryAsync<TRepositoryType, TEntityType>()
             where TEntityType : class, IBaseEntity
             where TRepositoryType : BaseRepository<TEntityType>;
 

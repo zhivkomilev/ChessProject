@@ -1,5 +1,5 @@
 ﻿using Chess.ApiGateway.Api.ApiServices.UsersService;
-using Chess.ApiGateway.Api.ApiServices.UsersService.Models;
+using Chess.Users.Models.UserModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
         public async Task<IActionResult> Login(LoginModel model)
         {
             var response = await _authService.Login(model);
-            
+
             return Ok(response);
         }
     }

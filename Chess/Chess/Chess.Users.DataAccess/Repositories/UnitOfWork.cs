@@ -19,19 +19,19 @@ namespace Chess.Users.DataAccess.Repositories
             _repositories = new Dictionary<Type, object>();
         }
 
-        public async Task<TRepositoryType> GetRepositoryAsync<TRepositoryType, TEntityType>()
-            where TRepositoryType : BaseRepository<TEntityType>
-            where TEntityType : class, IBaseEntity
+        public TRepository GetRepositoryAsync<TRepository, TEntity>()
+            where TEntity : class, IBaseEntity
+            where TRepository : BaseRepository<TEntity>
         {
-            var repoType = typeof(TRepositoryType);
+            var repoType = typeof(TRepository);
 
             if (!_repositories.ContainsKey(repoType))
             {
-                var repo = (TRepositoryType)Activator.CreateInstance(typeof(TRepositoryType), new object[] { _dbContext.Set<TEntityType>() });
+                var repo = (TRepository)Activator.CreateInstance(typeof(TRepository), new object[] { _dbContext.Set<TEntity>() });
                 _repositories.Add(repoType, repo);
             }
 
-            return await Task.FromResult((TRepositoryType)_repositories[repoType]);
+            return (TRepository)_repositories[repoType];
         }
 
         public async Task<int> SaveChangesAsync()
