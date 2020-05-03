@@ -63,7 +63,6 @@ namespace Chess.UsersService.Controllers
             return Ok(userDetails);
         }
 
-
         [HttpPost("update-user")]
         public async Task<IActionResult> UpdateDetails(UserDetailsModel model)
         {
@@ -74,6 +73,26 @@ namespace Chess.UsersService.Controllers
             await _service.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPost("update-points")]
+        public async Task<IActionResult> UpdatePoints(PointsUpdateModel model)
+        {
+            if (model == null)
+                return BadRequest();
+
+            await _service.UpdatePointsAsync(model);
+            await _service.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("get-all-users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await _service.GetAllUserDetailsAsync();
+
+            return Ok(users);
         }
     }
 }

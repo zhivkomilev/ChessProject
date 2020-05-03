@@ -3,6 +3,7 @@ using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Models.UserModels.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
@@ -37,5 +38,15 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// Updates user details
         /// </summary>
         Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model);
+
+        /// <summary>
+        /// Update the points of a user
+        /// </summary>
+        Task UpdatePointsAsync(IPointsUpdateModel model);
+
+        /// <summary>
+        /// Returns the user details for all non deleted users
+        /// </summary>
+        Task<IEnumerable<IUserDetailsModel>> GetAllUserDetailsAsync();
     }
 }

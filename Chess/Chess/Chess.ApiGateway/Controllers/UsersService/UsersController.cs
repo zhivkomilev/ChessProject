@@ -20,14 +20,6 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             _usersService = usersService;
         }
 
-        [HttpGet("get")]
-        public async Task<IActionResult> GetById(Guid id)
-        {
-            var response = await _usersService.GetById(id);
-
-            return Ok(response);
-        }
-
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -59,6 +51,22 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             await _usersService.UpdateDetails(model);
 
             return Ok();
+        }
+
+        [HttpPost("update-points")]
+        public async Task<IActionResult> UpdatePoints(PointsUpdateModel model)
+        {
+            await _usersService.UpdatePoints(model);
+
+            return Ok();
+        }
+
+        [HttpPost("get-all-users")]
+        public async Task<IActionResult> GetAllUserDetails()
+        {
+            var response = await _usersService.GetAllUserDetails();
+
+            return Ok(response);
         }
     }
 }

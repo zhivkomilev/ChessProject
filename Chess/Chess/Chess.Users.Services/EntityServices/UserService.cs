@@ -9,6 +9,7 @@ using Chess.Users.Services.Exceptions;
 using Chess.Users.Utilities;
 using Chess.Users.Utilities.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices
@@ -83,5 +84,18 @@ namespace Chess.Users.Services.EntityServices
 
             return model;
         }
+
+        public async Task UpdatePointsAsync(IPointsUpdateModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException($"model");
+
+            var user = await _repository.GetByIdAsync(model.UserId);
+            user.Points = model.Points;
+            await _repository.SaveAsync(user);
+        }
+
+        public async Task<IEnumerable<IUserDetailsModel>> GetAllUserDetailsAsync()
+            => await _repository.GetAllUserDetailsAsync();
     }
 }

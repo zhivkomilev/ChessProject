@@ -10,9 +10,6 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
         [Post("/register")]
         Task<string> Register(RegisterModel model);
 
-        [Get("/get")]
-        Task<string> GetById(Guid id);
-
         [Post("/change-password")]
         Task ChangePassword(ChangePasswordModel model);
 
@@ -21,5 +18,11 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
 
         [Post("/update-user")]
         Task UpdateDetails(UserDetailsModel model);
+
+        [Post("/update-points")]
+        Task UpdatePoints(PointsUpdateModel model);
+
+        [Get("/get-all-users")]
+        Task<string> GetAllUserDetails();
     }
 }
