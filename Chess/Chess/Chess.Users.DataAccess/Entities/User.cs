@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Chess.Core.DataAccess.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chess.Users.DataAccess.Entities
 {

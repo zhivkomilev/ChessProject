@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
     <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
   </ItemGroup>
 

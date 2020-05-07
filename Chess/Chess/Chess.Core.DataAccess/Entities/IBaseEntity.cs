@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Users.DataAccess.Entities
+namespace Chess.Core.DataAccess.Entities
 {
     public interface IBaseEntity
     {

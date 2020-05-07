@@ -1,6 +1,7 @@
 ﻿using Chess.Users.Models.UserModels;
 using Refit;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Chess.ApiGateway.Api.ApiServices.UsersService
@@ -8,13 +9,13 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
     public interface IUsersService
     {
         [Post("/register")]
-        Task<string> Register(RegisterModel model);
+        Task<UserDetailsModel> Register(RegisterModel model);
 
         [Post("/change-password/{userId}")]
         Task ChangePassword([AliasAs("userId")] Guid userId, ChangePasswordModel model);
 
         [Get("/details/{userId}")]
-        Task<string> Details([AliasAs("userId")] Guid userId);
+        Task<UserDetailsModel> Details([AliasAs("userId")] Guid userId);
 
         [Patch("/update-user/{userId}")]
         Task UpdateDetails([AliasAs("userId")] Guid userId, UserDetailsModel model);
@@ -23,6 +24,6 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
         Task UpdatePoints([AliasAs("userId")] Guid userId, PointsUpdateModel model);
 
         [Get("/get-all-users")]
-        Task<string> GetAllUserDetails();
+        Task<IEnumerable<UserDetailsModel>> GetAllUserDetails();
     }
 }

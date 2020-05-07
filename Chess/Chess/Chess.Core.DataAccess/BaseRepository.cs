@@ -1,25 +1,23 @@
-﻿using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories.Interfaces;
+﻿using Chess.Core.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Chess.Users.DataAccess.Repositories
+namespace Chess.Core.DataAccess
 {
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : class, IBaseEntity
     {
         protected readonly DbSet<TEntity> _dbSet;
 
-        protected BaseRepository(DbSet<TEntity> dbset)
-            => _dbSet = dbset;
+        protected BaseRepository(DbSet<TEntity> dbSet)
+            => _dbSet = dbSet;
 
         public async Task<TEntity> GetByIdAsync(Guid id)
             => await _dbSet.FindAsync(id);
 
-        public async Task<bool> AnyAsync(Expression<Func<TEntity,bool>> predicate) 
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
             => await _dbSet.AnyAsync(predicate);
 
         public async Task DeleteAsync(Guid id)

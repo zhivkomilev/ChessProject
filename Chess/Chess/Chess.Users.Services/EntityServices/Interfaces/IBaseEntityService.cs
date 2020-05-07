@@ -1,5 +1,5 @@
-﻿using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories;
+﻿using Chess.Core.DataAccess;
+using Chess.Core.DataAccess.Entities;
 using Chess.Users.Models;
 using System;
 using System.Threading.Tasks;

@@ -1,30 +1,30 @@
-﻿using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories.Interfaces;
+﻿using Chess.Core.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chess.Users.DataAccess.Repositories
+namespace Chess.Core.DataAccess
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork<TDbContext> : IUnitOfWork
+        where TDbContext : DbContext
     {
-        private readonly UsersDbContext _dbContext;
+        private readonly TDbContext _dbContext;
         private readonly Dictionary<Type, object> _repositories;
         private bool disposed;
 
-        public UnitOfWork(UsersDbContext dbContext)
+        public UnitOfWork(TDbContext dbContext)
         {
             _dbContext = dbContext;
             _repositories = new Dictionary<Type, object>();
         }
 
         public TRepository GetRepositoryAsync<TRepository, TEntity>()
-            where TEntity : class, IBaseEntity
-            where TRepository : BaseRepository<TEntity>
+            where TEntity: class, IBaseEntity
+            where TRepository: BaseRepository<TEntity>
         {
             var repoType = typeof(TRepository);
-
             if (!_repositories.ContainsKey(repoType))
             {
                 var repo = (TRepository)Activator.CreateInstance(typeof(TRepository), new object[] { _dbContext.Set<TEntity>() });

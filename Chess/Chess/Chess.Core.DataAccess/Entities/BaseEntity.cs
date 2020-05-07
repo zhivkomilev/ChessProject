@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Chess.Users.DataAccess.Entities
+namespace Chess.Core.DataAccess.Entities
 {
     public abstract class BaseEntity : IBaseEntity
     {

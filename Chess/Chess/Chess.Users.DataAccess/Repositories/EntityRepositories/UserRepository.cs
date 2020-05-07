@@ -1,4 +1,5 @@
-﻿using Chess.Users.DataAccess.Entities;
+﻿using Chess.Core.DataAccess;
+using Chess.Users.DataAccess.Entities;
 using Chess.Users.DataAccess.Repositories.EntityRepositories.Interfaces;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Models.UserModels.Interfaces;

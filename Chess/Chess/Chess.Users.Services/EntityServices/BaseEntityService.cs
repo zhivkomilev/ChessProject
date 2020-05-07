@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories;
-using Chess.Users.DataAccess.Repositories.Interfaces;
+using Chess.Core.DataAccess;
+using Chess.Core.DataAccess.Entities;
 using Chess.Users.Models;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Utilities.Interfaces;

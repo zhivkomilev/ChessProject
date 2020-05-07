@@ -1,9 +1,9 @@
-﻿using Chess.Users.DataAccess.Entities;
+﻿using Chess.Core.DataAccess.Entities;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Chess.Users.DataAccess.Repositories.Interfaces
+namespace Chess.Core.DataAccess
 {
     public interface IBaseRepository<T>
         where T : IBaseEntity
