@@ -27,7 +27,7 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// <summary>
         /// Changes the current password of a user with a new one
         /// </summary>
-        Task ChangePasswordAsync(IChangePasswordModel model);
+        Task ChangePasswordAsync(Guid userId, IChangePasswordModel model);
 
         /// <summary>
         /// Return the user details for a certain user
@@ -37,12 +37,12 @@ namespace Chess.Users.Services.EntityServices.Interfaces
         /// <summary>
         /// Updates user details
         /// </summary>
-        Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model);
+        Task<IUserDetailsModel> UpdateDetailsAsync(Guid userId, IUserDetailsModel model);
 
         /// <summary>
         /// Update the points of a user
         /// </summary>
-        Task UpdatePointsAsync(IPointsUpdateModel model);
+        Task UpdatePointsAsync(Guid userId, IPointsUpdateModel model);
 
         /// <summary>
         /// Returns the user details for all non deleted users

@@ -46,9 +46,9 @@ namespace Chess.Users.Services.EntityServices
             entity.Password = PasswordHasher.HashPassword(entity.Password);
         }
 
-        public async Task ChangePasswordAsync(IChangePasswordModel model)
+        public async Task ChangePasswordAsync(Guid userId, IChangePasswordModel model)
         {
-            var user = await _repository.GetByIdAsync(model.UserId);
+            var user = await _repository.GetByIdAsync(userId);
 
             if (!PasswordHasher.VerifyPassword(model.OldPassword, user.Password))
                 throw new ChangePasswordException("Old password is not correct.");
@@ -71,12 +71,12 @@ namespace Chess.Users.Services.EntityServices
             return userDetailsDto;
         }
 
-        public async Task<IUserDetailsModel> UpdateDetailsAsync(IUserDetailsModel model)
+        public async Task<IUserDetailsModel> UpdateDetailsAsync(Guid userId, IUserDetailsModel model)
         {
             if (model == null)
                 throw new ArgumentNullException($"model");
 
-            var user = await _repository.GetByEmailAsync(model.Email);
+            var user = await _repository.GetByIdAsync(userId);
 
             _mapper.Map(model, user);
             user = await _repository.SaveAsync(user);
@@ -85,12 +85,12 @@ namespace Chess.Users.Services.EntityServices
             return model;
         }
 
-        public async Task UpdatePointsAsync(IPointsUpdateModel model)
+        public async Task UpdatePointsAsync(Guid userId, IPointsUpdateModel model)
         {
             if (model == null)
                 throw new ArgumentNullException($"model");
 
-            var user = await _repository.GetByIdAsync(model.UserId);
+            var user = await _repository.GetByIdAsync(userId);
             user.Points = model.Points;
             await _repository.SaveAsync(user);
         }

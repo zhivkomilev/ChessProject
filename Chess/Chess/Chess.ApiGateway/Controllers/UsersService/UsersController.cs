@@ -29,15 +29,15 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             return Created(Request.Path.Value, response);
         }
 
-        [HttpPost("change-password")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        [HttpPost("change-password/{userId}")]
+        public async Task<IActionResult> ChangePassword(Guid userId, [FromBody] ChangePasswordModel model)
         {
-            await _usersService.ChangePassword(model);
+            await _usersService.ChangePassword(userId, model);
 
             return Ok();
         }
 
-        [HttpGet("details")]
+        [HttpGet("details/{userId}")]
         public async Task<IActionResult> Details(Guid userId)
         {
             var response = await _usersService.Details(userId);
@@ -45,18 +45,18 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             return Ok(response);
         }
 
-        [HttpPost("update-user")]
-        public async Task<IActionResult> UpdateDetails(UserDetailsModel model)
+        [HttpPost("update-user/{userId}")]
+        public async Task<IActionResult> UpdateDetails(Guid userId, [FromBody] UserDetailsModel model)
         {
-            await _usersService.UpdateDetails(model);
+            await _usersService.UpdateDetails(userId, model);
 
             return Ok();
         }
 
-        [HttpPost("update-points")]
-        public async Task<IActionResult> UpdatePoints(PointsUpdateModel model)
+        [HttpPost("update-points/{userId}")]
+        public async Task<IActionResult> UpdatePoints(Guid userId, [FromBody] PointsUpdateModel model)
         {
-            await _usersService.UpdatePoints(model);
+            await _usersService.UpdatePoints(userId, model);
 
             return Ok();
         }

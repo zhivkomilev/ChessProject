@@ -10,17 +10,17 @@ namespace Chess.ApiGateway.Api.ApiServices.UsersService
         [Post("/register")]
         Task<string> Register(RegisterModel model);
 
-        [Post("/change-password")]
-        Task ChangePassword(ChangePasswordModel model);
+        [Post("/change-password/{userId}")]
+        Task ChangePassword([AliasAs("userId")] Guid userId, ChangePasswordModel model);
 
-        [Get("/details")]
-        Task<string> Details(Guid userId);
+        [Get("/details/{userId}")]
+        Task<string> Details([AliasAs("userId")] Guid userId);
 
-        [Post("/update-user")]
-        Task UpdateDetails(UserDetailsModel model);
+        [Patch("/update-user/{userId}")]
+        Task UpdateDetails([AliasAs("userId")] Guid userId, UserDetailsModel model);
 
-        [Post("/update-points")]
-        Task UpdatePoints(PointsUpdateModel model);
+        [Patch("/update-points/{userId}")]
+        Task UpdatePoints([AliasAs("userId")] Guid userId, PointsUpdateModel model);
 
         [Get("/get-all-users")]
         Task<string> GetAllUserDetails();

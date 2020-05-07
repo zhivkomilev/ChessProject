@@ -1,4 +1,5 @@
-﻿using Chess.Users.Models;
+﻿using Chess.Core.Middlewares.Models;
+using Chess.Users.Models;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Interfaces;
@@ -12,6 +13,9 @@ namespace Chess.Users.Api.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [ProducesResponseType(typeof(ErrorModel), 400)]
+    [ProducesResponseType(typeof(ErrorModel), 401)]
+    [ProducesResponseType(typeof(ErrorModel), 404)]
     public class AuthController : Controller
     {
         private readonly ITokenService _tokenService;
@@ -32,10 +36,18 @@ namespace Chess.Users.Api.Controllers
         {
                 var userModel = await _userService.GetByEmailAsync(loginModel.Email);
                 if (userModel == default)
-                    return NotFound($"No user with email:{loginModel.Email} found.");
+                    return NotFound(new ErrorModel
+                    {
+                        Message = $"No user with email:{loginModel.Email} found.",
+                        StatusCode = 404
+                    });
                 
                 if (!PasswordHasher.VerifyPassword(loginModel.Password, userModel.Password))
-                    return StatusCode(401, $"Wrong password.");
+                    return StatusCode(401, new ErrorModel
+                    {
+                        Message = "Password incorrect",
+                        StatusCode = 401
+                    });
                 
                 var token = await _tokenService.GenerateJwtAsync(userModel);
 
