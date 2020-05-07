@@ -26,6 +26,7 @@ namespace Chess.UsersService
                         cfg.LogName = "Chess.UsersLogs";
                         cfg.SourceName = "Chess.Users";
                     });
+                    logging.AddConsole();
                 });
     }
 }

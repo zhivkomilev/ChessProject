@@ -26,6 +26,7 @@ namespace Chess.ApiGateway
                         cfg.LogName = "Chess.ApiGatewayLogs";
                         cfg.SourceName = "Chess.ApiGateway";
                     });
+                    logging.AddConsole();
                 });
     }
 }
