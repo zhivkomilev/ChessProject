@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

@@ -43,13 +43,9 @@ namespace Chess.UsersService
             services.AddSingleton(_settings);
 
             #region Dependeny injections
-            services.AddUnitOfWork();
+            services.AddDataAccessDependencies(Configuration);
             services.AddUserServices();
             services.AddUtilities();
-            services.AddDbContext<UsersDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("UsersDbConnection"), providerOptions => providerOptions.CommandTimeout(60));
-            });
             #endregion
 
             #region AutoMapper

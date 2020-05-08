@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 namespace Chess.Users.Api.Controllers
 {
     [ApiController]
-    public abstract class BaseCrudController<TService, TModel, TEntity, TRepositoryType> : Controller
+    public abstract class BaseCrudController<TService, TModel, TEntity> : Controller
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
-        where TService : IBaseEntityService<TEntity, TModel, TRepositoryType>
-        where TRepositoryType : BaseRepository<TEntity>
+        where TService : IBaseEntityService<TEntity, TModel>
     {
         protected readonly TService _service;
         protected readonly ILogger _logger;

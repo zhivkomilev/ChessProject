@@ -1,14 +1,12 @@
 ﻿using Chess.Core.Middlewares.Models;
 using Chess.Users.Api.Controllers;
 using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Services.EntityServices.Interfaces;
 using Chess.Users.Services.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +17,7 @@ namespace Chess.UsersService.Controllers
     [ProducesResponseType(typeof(ErrorModel), 400)]
     [ProducesResponseType(typeof(ErrorModel), 404)]
     public class UsersController
-        : BaseCrudController<IUserService, UserModel, User, UserRepository>
+        : BaseCrudController<IUserService, UserModel, User>
     {
         public UsersController(IUserService service,
             ILogger<UsersController> logger)

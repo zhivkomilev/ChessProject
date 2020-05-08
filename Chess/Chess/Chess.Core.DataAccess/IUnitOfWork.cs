@@ -7,9 +7,8 @@ namespace Chess.Core.DataAccess
 {
     public interface IUnitOfWork : IDisposable
     {
-        TRepositoryType GetRepositoryAsync<TRepositoryType, TEntityType>()
-            where TEntityType : class, IBaseEntity
-            where TRepositoryType : BaseRepository<TEntityType>;
+        IRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IBaseEntity;
 
         Task RollbackAsync();
 

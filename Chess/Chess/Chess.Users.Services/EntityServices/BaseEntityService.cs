@@ -9,24 +9,23 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices
 {
-    public abstract class BaseEntityService<TEntity, TModel, TRepositoryType> : IBaseEntityService<TEntity, TModel, TRepositoryType>
+    public abstract class BaseEntityService<TEntity, TModel> : IBaseEntityService<TEntity, TModel>
         where TEntity: class, IBaseEntity
         where TModel: class, IBaseModel
-        where TRepositoryType: BaseRepository<TEntity>
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IDateTimeProvider _dateTimeProvider;
         protected readonly IMapper _mapper;
-        protected readonly TRepositoryType _repository;
+        protected readonly IRepository<TEntity> _repository;
 
         protected BaseEntityService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
             IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
-            _dateTimeProvider = dateTimeProvider;
-            _mapper = mapper;
-            _repository = _unitOfWork.GetRepositoryAsync<TRepositoryType, TEntity>();
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _repository = _unitOfWork.GetRepository<TEntity>();
         }
         
         public async Task<TModel> GetByIdAsync(Guid id)

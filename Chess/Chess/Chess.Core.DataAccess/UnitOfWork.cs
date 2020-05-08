@@ -1,4 +1,5 @@
 ﻿using Chess.Core.DataAccess.Entities;
+using Chess.Core.DataAccess.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,27 +12,29 @@ namespace Chess.Core.DataAccess
         where TDbContext : DbContext
     {
         private readonly TDbContext _dbContext;
-        private readonly Dictionary<Type, object> _repositories;
+        private readonly IActivatorWrapper _activator;
+        private readonly Dictionary<Type, object> _repositories = new Dictionary<Type, object>();
         private bool disposed;
 
-        public UnitOfWork(TDbContext dbContext)
+        public UnitOfWork(TDbContext dbContext,
+            IActivatorWrapper activator)
         {
-            _dbContext = dbContext;
-            _repositories = new Dictionary<Type, object>();
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+            _activator = activator ?? throw new ArgumentNullException(nameof(activator));
         }
-
-        public TRepository GetRepositoryAsync<TRepository, TEntity>()
-            where TEntity: class, IBaseEntity
-            where TRepository: BaseRepository<TEntity>
+        
+        public IRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IBaseEntity
         {
-            var repoType = typeof(TRepository);
-            if (!_repositories.ContainsKey(repoType))
+            var entityType = typeof(TEntity);
+
+            if (!_repositories.ContainsKey(entityType))
             {
-                var repo = (TRepository)Activator.CreateInstance(typeof(TRepository), new object[] { _dbContext.Set<TEntity>() });
-                _repositories.Add(repoType, repo);
+                var repo = (IRepository<TEntity>)_activator.CreateInstance<Repository<TEntity>>(new object[] { _dbContext.Set<TEntity>() });
+                _repositories.Add(entityType, repo);
             }
 
-            return (TRepository)_repositories[repoType];
+            return (IRepository<TEntity>)_repositories[entityType];
         }
 
         public async Task<int> SaveChangesAsync()

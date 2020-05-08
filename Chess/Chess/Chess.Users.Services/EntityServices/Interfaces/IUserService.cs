@@ -1,5 +1,4 @@
 ﻿using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Models.UserModels.Interfaces;
 using System;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
 {
-    public interface IUserService : IBaseEntityService<User, UserModel, UserRepository>
+    public interface IUserService : IBaseEntityService<User, UserModel>
     {
         /// <summary>
         /// Gets a user model by a given email.

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Chess.Core.DataAccess;
 using Chess.Users.DataAccess.Entities;
-using Chess.Users.DataAccess.Repositories.EntityRepositories;
 using Chess.Users.Models.UserModels;
 using Chess.Users.Models.UserModels.Interfaces;
 using Chess.Users.Services.EntityServices.Interfaces;
@@ -14,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices
 {
-    public class UserService : BaseEntityService<User, UserModel, UserRepository>, IUserService
+    public class UserService : BaseEntityService<User, UserModel>, IUserService
     {
         public UserService(IUnitOfWork unitOfWork,
             IDateTimeProvider dateTimeProvider,
@@ -23,7 +22,10 @@ namespace Chess.Users.Services.EntityServices
 
         public async Task<IUserModel> GetByEmailAsync(string email)
         {
-            var user = await _repository.GetByEmailAsync(email);
+            if (string.IsNullOrEmpty(email))
+                throw new ArgumentNullException("email");
+
+            var user = await _repository.Get(u => u.Email == email);
 
             if (user == default)
                 return default;
@@ -65,16 +67,27 @@ namespace Chess.Users.Services.EntityServices
         public async Task<IUserDetailsModel> GetUserDetailsAsync(Guid userId)
         {
             if (userId == default)
-                throw new ArgumentNullException($"userId");
+                throw new ArgumentNullException(nameof(userId));
 
-            var userDetailsDto = await _repository.GetUserDetailsAsync(userId);
+            var userDetailsDto = await _repository.GetDto(u => u.Id == userId, u => new UserDetailsModel
+            {
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Points = u.Points,
+                Username = u.Username
+            });
+
             return userDetailsDto;
         }
 
         public async Task<IUserDetailsModel> UpdateDetailsAsync(Guid userId, IUserDetailsModel model)
         {
             if (model == null)
-                throw new ArgumentNullException($"model");
+                throw new ArgumentNullException(nameof(model));
+
+            if (userId == null)
+                throw new ArgumentNullException(nameof(userId));
 
             var user = await _repository.GetByIdAsync(userId);
 
@@ -88,7 +101,10 @@ namespace Chess.Users.Services.EntityServices
         public async Task UpdatePointsAsync(Guid userId, IPointsUpdateModel model)
         {
             if (model == null)
-                throw new ArgumentNullException($"model");
+                throw new ArgumentNullException(nameof(model));
+
+            if (userId == null)
+                throw new ArgumentNullException(nameof(userId));
 
             var user = await _repository.GetByIdAsync(userId);
             user.Points = model.Points;
@@ -96,6 +112,13 @@ namespace Chess.Users.Services.EntityServices
         }
 
         public async Task<IEnumerable<IUserDetailsModel>> GetAllUserDetailsAsync()
-            => await _repository.GetAllUserDetailsAsync();
+            => await _repository.GetAllDtos(u => new UserDetailsModel
+            {
+                Email = u.Email,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Points = u.Points,
+                Username = u.Username
+            });
     }
 }

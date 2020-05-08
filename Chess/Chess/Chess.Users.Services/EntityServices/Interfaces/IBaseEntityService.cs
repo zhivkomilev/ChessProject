@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Chess.Users.Services.EntityServices.Interfaces
 {
-    public interface IBaseEntityService<TEntity, TModel, TRepositoryType> : IDisposable
+    public interface IBaseEntityService<TEntity, TModel> : IDisposable
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
-        where TRepositoryType : BaseRepository<TEntity>
     {
         /// <summary>
         /// Deletes TEntity with given id.
