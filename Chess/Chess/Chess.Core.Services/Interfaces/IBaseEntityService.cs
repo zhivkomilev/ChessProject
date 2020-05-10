@@ -1,10 +1,9 @@
-﻿using Chess.Core.DataAccess;
-using Chess.Core.DataAccess.Entities;
-using Chess.Users.Models;
+﻿using Chess.Core.DataAccess.Entities;
+using Chess.Core.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.Users.Services.EntityServices.Interfaces
+namespace Chess.Core.Services.Interfaces
 {
     public interface IBaseEntityService<TEntity, TModel> : IDisposable
         where TEntity : class, IBaseEntity

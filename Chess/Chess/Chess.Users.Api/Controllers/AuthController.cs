@@ -1,12 +1,8 @@
 ﻿using Chess.Core.Middlewares.Models;
-using Chess.Users.Models;
 using Chess.Users.Models.UserModels;
-using Chess.Users.Services.EntityServices.Interfaces;
+using Chess.Users.Services;
 using Chess.Users.Services.Interfaces;
-using Chess.Users.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Chess.Users.Api.Controllers
@@ -25,11 +21,11 @@ namespace Chess.Users.Api.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         [ProducesResponseType(typeof(string), 200)]
         [ProducesResponseType(typeof(ErrorModel), 401)]
         [ProducesResponseType(typeof(ErrorModel), 404)]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        public async Task<IActionResult> Post(UserLoginModel loginModel)
         {
                 var userModel = await _userService.GetByEmailAsync(loginModel.Email);
                 if (userModel == default)

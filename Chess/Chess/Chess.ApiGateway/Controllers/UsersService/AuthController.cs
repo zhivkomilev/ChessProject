@@ -1,5 +1,5 @@
-﻿using Chess.ApiGateway.Api.ApiServices.UsersService;
-using Chess.Core.Middlewares.Models;
+﻿using Chess.Core.Middlewares.Models;
+using Chess.Users.Clients;
 using Chess.Users.Models.UserModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +20,13 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             _authService = authService;
         }
 
-        [HttpPost("login")]
+        [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ErrorModel), 401)]
         [ProducesResponseType(typeof(string), 200)]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Post(UserLoginModel model)
         {
-            var response = await _authService.Login(model);
+            var response = await _authService.Post(model);
 
             return Ok(response);
         }

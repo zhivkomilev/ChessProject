@@ -8,15 +8,15 @@ namespace Chess.Users.DataAccess.Infrastructure.ServicesExtensions
 {
     public static class ServicesExtensions
     {
-        public static void AddDataAccessDependencies(this IServiceCollection services, IConfiguration configuration)
+        public static void AddDataAccessDependencies(this IServiceCollection services, string connectionString)
         {
             #region Scoped registrations
-            services.AddScoped<IUnitOfWork, UnitOfWork<UsersDbContext>>();
+            services.AddUnitOfWork<UsersDbContext>();
             services.AddActivatorWrapper();
             #endregion
 
             services.AddDbContext<UsersDbContext>(options 
-                => options.UseSqlServer(configuration.GetConnectionString("UsersDbConnection")));
+                => options.UseSqlServer(connectionString));
         }
     }
 }

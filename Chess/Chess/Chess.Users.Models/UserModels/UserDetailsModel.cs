@@ -1,8 +1,6 @@
-﻿using Chess.Users.Models.UserModels.Interfaces;
-
-namespace Chess.Users.Models.UserModels
+﻿namespace Chess.Users.Models.UserModels
 {
-    public class UserDetailsModel : IUserDetailsModel
+    public class UserDetailsModel
     {
         public string Username { get; set; }
 

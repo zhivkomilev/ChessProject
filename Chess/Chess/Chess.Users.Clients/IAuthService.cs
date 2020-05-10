@@ -2,11 +2,11 @@
 using Refit;
 using System.Threading.Tasks;
 
-namespace Chess.ApiGateway.Api.ApiServices.UsersService
+namespace Chess.Users.Clients
 {
     public interface IAuthService
     {
-        [Post("/login")]
-        Task<string> Login(LoginModel model);
+        [Post("/")]
+        Task<string> Post(UserLoginModel model);
     }
 }

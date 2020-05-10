@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
+    <ProjectReference Include="..\Chess.Core.Models\Chess.Core.Models.csproj" />
+    <ProjectReference Include="..\Chess.Core.Services\Chess.Core.Services.csproj" />
+  </ItemGroup>
+
+</Project>

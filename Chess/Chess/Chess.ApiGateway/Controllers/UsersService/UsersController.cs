@@ -1,5 +1,4 @@
-﻿using Chess.ApiGateway.Api.ApiServices.UsersService;
-using Chess.Core.Middlewares.Models;
+﻿using Chess.Users.Clients;
 using Chess.Users.Models.UserModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +12,6 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
     [ApiController]
     [Route("/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ProducesResponseType(typeof(ErrorModel), 400)]
-    [ProducesResponseType(typeof(ErrorModel), 401)]
-    [ProducesResponseType(typeof(ErrorModel), 404)]
     public class UsersController : Controller
     {
         private readonly IUsersService _usersService;
@@ -25,11 +21,11 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             _usersService = usersService;
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Post(UserRegisterModel model)
         {
-            var response = await _usersService.Register(model);
+            var response = await _usersService.Post(model);
 
             return Created(Request.Path.Value, response);
         }
@@ -51,29 +47,29 @@ namespace Chess.ApiGateway.Api.Controllers.UsersService
             return Ok(response);
         }
 
-        [HttpPatch("update-user/{userId}")]
+        [HttpPatch("details/{userId}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> UpdateDetails(Guid userId, [FromBody] UserDetailsModel model)
+        public async Task<IActionResult> Details(Guid userId, [FromBody] UserDetailsModel model)
         {
-            await _usersService.UpdateDetails(userId, model);
+            await _usersService.Details(userId, model);
 
             return Ok();
         }
 
-        [HttpPatch("update-points/{userId}")]
+        [HttpPatch("points/{userId}")]
         [ProducesResponseType(200)]
-        public async Task<IActionResult> UpdatePoints(Guid userId, [FromBody] PointsUpdateModel model)
+        public async Task<IActionResult> Points(Guid userId, [FromBody] PointsUpdateModel model)
         {
-            await _usersService.UpdatePoints(userId, model);
+            await _usersService.Points(userId, model);
 
             return Ok();
         }
 
-        [HttpGet("get-all-users")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(IEnumerable<UserDetailsModel>), 200)]
-        public async Task<IActionResult> GetAllUserDetails()
+        public async Task<IActionResult> GetAll()
         {
-            var response = await _usersService.GetAllUserDetails();
+            var response = await _usersService.GetAll();
 
             return Ok(response);
         }

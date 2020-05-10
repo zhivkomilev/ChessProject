@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
 using Chess.Core.DataAccess;
 using Chess.Core.DataAccess.Entities;
-using Chess.Users.Models;
-using Chess.Users.Services.EntityServices.Interfaces;
-using Chess.Users.Utilities.Interfaces;
+using Chess.Core.Domain.Interfaces;
+using Chess.Core.Models;
+using Chess.Core.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.Users.Services.EntityServices
+namespace Chess.Core.Services
 {
     public abstract class BaseEntityService<TEntity, TModel> : IBaseEntityService<TEntity, TModel>
-        where TEntity: class, IBaseEntity
-        where TModel: class, IBaseModel
+        where TEntity : class, IBaseEntity
+        where TModel : class, IBaseModel
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IDateTimeProvider _dateTimeProvider;
@@ -27,12 +27,12 @@ namespace Chess.Users.Services.EntityServices
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _repository = _unitOfWork.GetRepository<TEntity>();
         }
-        
+
         public async Task<TModel> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
 
-            return _mapper.Map<TModel>(entity); ;
+            return _mapper.Map<TModel>(entity);
         }
 
         public async Task<TModel> InsertAsync(TModel model)
@@ -40,7 +40,7 @@ namespace Chess.Users.Services.EntityServices
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
             model = await SaveEntityAsync(entity);
-            
+
             return model;
         }
 
@@ -54,21 +54,18 @@ namespace Chess.Users.Services.EntityServices
         }
 
         public async Task DeleteAsync(Guid id)
-            =>  await _repository.DeleteAsync(id);
-        
+            => await _repository.DeleteAsync(id);
+
         public async Task SaveChangesAsync()
             => await _unitOfWork.SaveChangesAsync();
 
         protected virtual async Task<TModel> SaveEntityAsync(TEntity entity)
-        {
-            var model = _mapper.Map<TModel>(await _repository.SaveAsync(entity));
+            => _mapper.Map<TModel>(await _repository.SaveAsync(entity));
 
-            return model;
-        }
 
         protected virtual void OnBeforeUpdate(TEntity entity)
-            => entity.LatestUpdateDate= _dateTimeProvider.UtcNow;
-        
+            => entity.LatestUpdateDate = _dateTimeProvider.UtcNow;
+
         protected virtual void OnBeforeInsert(TEntity entity)
            => entity.LatestUpdateDate = entity.CreatedDate = _dateTimeProvider.UtcNow;
 

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
+    <ProjectReference Include="..\Chess.Core.Domain\Chess.Core.Domain.csproj" />
+    <ProjectReference Include="..\Chess.Core.Models\Chess.Core.Models.csproj" />
+  </ItemGroup>
+
+</Project>

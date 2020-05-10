@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <None Remove="Repositories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20200425202404_AddChangePassword.cs" />
     <Compile Remove="Migrations\20200425202404_AddChangePassword.Designer.cs" />
   </ItemGroup>
@@ -23,10 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Chess.Core.DataAccess\Chess.Core.DataAccess.csproj" />
     <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

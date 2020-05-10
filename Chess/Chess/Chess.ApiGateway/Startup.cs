@@ -1,6 +1,8 @@
-using Chess.ApiGateway.Api.ApiServices.UsersService;
 using Chess.ApiGateway.Api.Infrastructure.Settings;
 using Chess.Core.Middlewares.BuilderExtensions;
+using Chess.Users.Clients.ServicesExtensions;
+using Chess.Users.Models.ServiceExtensions;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,8 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Refit;
-using System;
 using System.Text;
 
 namespace Chess.ApiGateway
@@ -18,6 +18,7 @@ namespace Chess.ApiGateway
     public class Startup
     {
         private readonly ApiGatewaySettings _settings;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,7 +31,8 @@ namespace Chess.ApiGateway
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(cfg => cfg.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
 
             #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -47,16 +49,16 @@ namespace Chess.ApiGateway
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    {
-                          new OpenApiSecurityScheme
+                    { 
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
                             {
-                                Reference = new OpenApiReference
-                                {
-                                    Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                                }
-                            },
-                            new string[] {}
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
                     }
                 });
             });
@@ -88,11 +90,10 @@ namespace Chess.ApiGateway
             #endregion
 
             #region Refit Clients
-            services.AddRefitClient<IAuthService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(_settings.ApiUrls.AuthUrl));
-            services.AddRefitClient<IUsersService>()
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri(_settings.ApiUrls.UsersServiceUrl));
+            services.AddUserServiceClients(_settings.ApiUrls.UsersServiceUrl, _settings.ApiUrls.AuthUrl);
             #endregion
+
+            services.AddUserServiceValidators();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

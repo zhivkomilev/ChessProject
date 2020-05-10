@@ -1,13 +1,12 @@
-﻿using Chess.Core.DataAccess;
-using Chess.Core.DataAccess.Entities;
-using Chess.Users.Models;
-using Chess.Users.Services.EntityServices.Interfaces;
+﻿using Chess.Core.DataAccess.Entities;
+using Chess.Core.Models;
+using Chess.Core.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Chess.Users.Api.Controllers
+namespace Chess.Core.Api.Controllers
 {
     [ApiController]
     public abstract class BaseCrudController<TService, TModel, TEntity> : Controller
@@ -25,10 +24,10 @@ namespace Chess.Users.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("get")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            if (id == null || id == default)
+            if (id == default)
                 return BadRequest();
 
             var model = await _service.GetByIdAsync(id);
@@ -38,8 +37,8 @@ namespace Chess.Users.Api.Controllers
             return Ok(model);
         }
 
-        [HttpPost("insert")]
-        public virtual async Task<IActionResult> Insert(TModel model)
+        [HttpPost]
+        public virtual async Task<IActionResult> Post(TModel model)
         {
             if (model == null)
                 return BadRequest();
@@ -53,8 +52,8 @@ namespace Chess.Users.Api.Controllers
             return Created(Request.Path.Value, savedModel);
         }
 
-        [HttpPost("update")]
-        public async Task<IActionResult> Update(TModel model)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(TModel model)
         {
             if (model == null)
                 return BadRequest();
@@ -68,10 +67,10 @@ namespace Chess.Users.Api.Controllers
             return Ok(updatedModel);
         }
 
-        [HttpDelete("delete")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null || id == default)
+            if (id == default)
                 return BadRequest();
 
             await _service.DeleteAsync(id);

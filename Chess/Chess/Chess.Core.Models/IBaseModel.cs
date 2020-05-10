@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Chess.Users.Models
+namespace Chess.Core.Models
 {
     public interface IBaseModel
     {

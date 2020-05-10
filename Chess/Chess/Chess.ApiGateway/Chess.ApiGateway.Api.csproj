@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
@@ -25,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chess.Core.ServiceClients\Chess.Core.ServiceClients.csproj" />
-    <ProjectReference Include="..\Chess.Middlewares\Chess.Core.Middlewares.csproj" />
+    <ProjectReference Include="..\Chess.Core.Middlewares\Chess.Core.Middlewares.csproj" />
+    <ProjectReference Include="..\Chess.Users.Clients\Chess.Users.Clients.csproj" />
   </ItemGroup>
 
 </Project>

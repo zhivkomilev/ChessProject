@@ -1,7 +1,7 @@
-﻿using Chess.Users.Models.SettingsModels;
-using Chess.Users.Models.UserModels.Interfaces;
+﻿using Chess.Core.Domain.Interfaces;
+using Chess.Users.Models.SettingsModels;
+using Chess.Users.Models.UserModels;
 using Chess.Users.Services.Interfaces;
-using Chess.Users.Utilities.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Chess.Users.Services
             _dateTime = dateTime;
         }
 
-        public async Task<string> GenerateJwtAsync(IUserModel userInfo)
+        public async Task<string> GenerateJwtAsync(UserModel userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

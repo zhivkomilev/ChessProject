@@ -1,9 +1,6 @@
-﻿using Chess.Users.Models.UserModels.Interfaces;
-using System;
-
-namespace Chess.Users.Models.UserModels
+﻿namespace Chess.Users.Models.UserModels
 {
-    public class ChangePasswordModel : IChangePasswordModel
+    public class ChangePasswordModel
     {
         public string OldPassword { get; set; }
         public string NewPassword { get; set; }

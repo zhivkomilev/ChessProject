@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Chess.Users.DataAccess;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
 using Chess.Users.Services.Infrastructure.AutoMapper;
 using Chess.Users.DataAccess.Infrastructure.ServicesExtensions;
 using Chess.Users.Services.Infrastructure.Services;
-using Chess.Users.Utilities.Infrastructure;
 using Chess.Users.Models.SettingsModels;
 using Chess.Core.Middlewares.BuilderExtensions;
+using Chess.Core.Domain.Infrastructure;
+using Chess.Users.Models.ServiceExtensions;
+using FluentValidation.AspNetCore;
 
 namespace Chess.UsersService
 {
@@ -30,7 +30,8 @@ namespace Chess.UsersService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .AddFluentValidation(cfg => cfg.RunDefaultMvcValidationAfterFluentValidationExecutes = false);
 
             #region Swagger
             // Register the Swagger generator, defining 1 or more Swagger documents
@@ -43,9 +44,10 @@ namespace Chess.UsersService
             services.AddSingleton(_settings);
 
             #region Dependeny injections
-            services.AddDataAccessDependencies(Configuration);
+            services.AddDataAccessDependencies(Configuration.GetConnectionString("UsersDbConnection"));
             services.AddUserServices();
             services.AddUtilities();
+            services.AddUserServiceValidators();
             #endregion
 
             #region AutoMapper

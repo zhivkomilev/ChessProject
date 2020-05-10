@@ -54,7 +54,7 @@ namespace Chess.Core.Middlewares
 
         private Task HandleApiExceptionAsync(HttpContext context, ApiException exception)
         {
-            context.Response.ContentType = exception.ContentHeaders.ContentType.MediaType;
+            context.Response.ContentType = exception.ContentHeaders?.ContentType?.MediaType;
             context.Response.StatusCode = (int)exception.StatusCode;
 
             var errorModelJson = JsonSerializer.Serialize(new ErrorModel

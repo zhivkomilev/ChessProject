@@ -7,13 +7,14 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="MailKit" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="3.1.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chess.Core.Services\Chess.Core.Services.csproj" />
     <ProjectReference Include="..\Chess.Users.DataAccess\Chess.Users.DataAccess.csproj" />
     <ProjectReference Include="..\Chess.Users.Models\Chess.Users.Models.csproj" />
-    <ProjectReference Include="..\Chess.Users.Utilities\Chess.Users.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
