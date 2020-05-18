@@ -22,7 +22,7 @@ namespace Chess.Users.Services
         public async Task<UserModel> GetByEmailAsync(string email)
         {
             if (string.IsNullOrEmpty(email))
-                throw new ArgumentNullException("email");
+                throw new ArgumentNullException(nameof(email));
 
             var user = await _repository.Get(u => u.Email == email);
 
