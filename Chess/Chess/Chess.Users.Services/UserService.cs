@@ -23,9 +23,20 @@ namespace Chess.Users.Services
             IDateTimeProvider dateTimeProvider,
             IMapper mapper,
             ITokenService tokenService)
-            : base(unitOfWork, dateTimeProvider, mapper) 
+            : base(unitOfWork, dateTimeProvider, mapper)
         {
             _tokenService = tokenService;
+        }
+
+        public override async Task<IResponse> InsertAsync(UserModel model)
+        {
+            if (model == null)
+                return new Response(HttpStatusCode.BadRequest, false);
+
+            if (await DoesUserExistAsync(model.Email))
+                return new Response(HttpStatusCode.BadRequest, false, $"Email already exists.");
+
+            return await base.InsertAsync(model);
         }
 
         public async Task<IResponse> Login(UserLoginModel loginModel)

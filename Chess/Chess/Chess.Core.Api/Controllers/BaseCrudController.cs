@@ -31,16 +31,12 @@ namespace Chess.Core.Api.Controllers
                 return BadRequest();
 
             var response = await _service.GetByIdAsync(id);
-            
             return ProcessResponse(response);
         }
 
         [HttpPost]
         public virtual async Task<IActionResult> Post(TModel model)
         {
-            if (model == null)
-                return BadRequest();
-
             var response = await _service.InsertAsync(model);
             if (!response.IsSuccessful)
                 return ProcessResponse(response);

@@ -19,26 +19,15 @@ namespace Chess.UsersService.Controllers
             ILogger<UsersController> logger)
             : base(service, logger) { }
 
-        [HttpPost]
-        public override async Task<IActionResult> Post(UserModel model)
-        {
-            if (await _service.DoesUserExistAsync(model.Email))
-                return BadRequest(new ErrorModel
-                {
-                    Message = $"Email already exists.",
-                    StatusCode = 400
-                });
-
-            await base.Post(model);
-            return Ok();
-        }
 
         [HttpPost("change-password/{userId}")]
         public async Task<IActionResult> ChangePassword(Guid userId, [FromBody] ChangePasswordModel model)
         {
-            await _service.ChangePasswordAsync(userId, model);
-            await _service.SaveChangesAsync();
+            var response = await _service.ChangePasswordAsync(userId, model);
+            if (!response.IsSuccessful)
+                return ProcessResponse(response);
 
+            await _service.SaveChangesAsync();
             return Ok();
         }
 

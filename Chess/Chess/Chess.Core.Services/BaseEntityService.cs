@@ -38,7 +38,7 @@ namespace Chess.Core.Services
             return new Response(HttpStatusCode.OK, true, model);
         }
 
-        public async Task<IResponse> InsertAsync(TModel model)
+        public virtual async Task<IResponse> InsertAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
