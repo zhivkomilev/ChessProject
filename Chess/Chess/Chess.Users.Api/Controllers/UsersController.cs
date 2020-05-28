@@ -45,42 +45,39 @@ namespace Chess.UsersService.Controllers
         [HttpGet("details/{userId}")]
         public async Task<IActionResult> Details(Guid userId)
         {
-            var userDetails = await _service.GetUserDetailsAsync(userId);
+            var response = await _service.GetUserDetailsAsync(userId);
 
-            if (userDetails == default)
-                return NotFound(new ErrorModel
-                {
-                    Message = $"Model with Id {userId} not found",
-                    StatusCode = 400
-                });
-
-            return Ok(userDetails);
+            return ProcessResponse(response);
         }
 
         [HttpPatch("details/{userId}")]
         public async Task<IActionResult> Details(Guid userId, [FromBody] UserDetailsModel model)
         {
-            await _service.UpdateDetailsAsync(userId, model);
+            var response = await _service.UpdateDetailsAsync(userId, model);
+            if (!response.IsSuccessful)
+                return ProcessResponse(response);
+            
             await _service.SaveChangesAsync();
-
-            return Ok();
+            return ProcessResponse(response);
         }
 
         [HttpPatch("points/{userId}")]
         public async Task<IActionResult> Points(Guid userId, [FromBody]PointsUpdateModel model)
         {
-            await _service.UpdatePointsAsync(userId, model);
-            await _service.SaveChangesAsync();
+            var response = await _service.UpdatePointsAsync(userId, model);
+            if (!response.IsSuccessful)
+                return ProcessResponse(response);
 
-            return Ok();
+            await _service.SaveChangesAsync();
+            return ProcessResponse(response);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _service.GetAllUserDetailsAsync();
-
-            return Ok(users);
+            var response = await _service.GetAllUserDetailsAsync();
+            
+            return ProcessResponse(response);
         }
     }
 }

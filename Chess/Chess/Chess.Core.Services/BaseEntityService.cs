@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Chess.Core.DataAccess;
 using Chess.Core.DataAccess.Entities;
+using Chess.Core.Domain;
 using Chess.Core.Domain.Interfaces;
 using Chess.Core.Models;
 using Chess.Core.Services.Interfaces;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Chess.Core.Services
@@ -28,29 +30,30 @@ namespace Chess.Core.Services
             _repository = _unitOfWork.GetRepository<TEntity>();
         }
 
-        public async Task<TModel> GetByIdAsync(Guid id)
+        public async Task<IResponse> GetByIdAsync(Guid id)
         {
             var entity = await _repository.GetByIdAsync(id);
-
-            return _mapper.Map<TModel>(entity);
+            var model = _mapper.Map<TModel>(entity);
+            
+            return new Response(HttpStatusCode.OK, true, model);
         }
 
-        public async Task<TModel> InsertAsync(TModel model)
+        public async Task<IResponse> InsertAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeInsert(entity);
             model = await SaveEntityAsync(entity);
 
-            return model;
+            return new Response(HttpStatusCode.OK, true, model);
         }
 
-        public async Task<TModel> UpdateAsync(TModel model)
+        public async Task<IResponse> UpdateAsync(TModel model)
         {
             var entity = _mapper.Map<TEntity>(model);
             OnBeforeUpdate(entity);
             model = await SaveEntityAsync(entity);
 
-            return model;
+            return new Response(HttpStatusCode.OK, true, model);
         }
 
         public async Task DeleteAsync(Guid id)

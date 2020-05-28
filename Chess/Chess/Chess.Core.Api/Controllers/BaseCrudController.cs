@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Chess.Core.Api.Controllers
 {
     [ApiController]
-    public abstract class BaseCrudController<TService, TModel, TEntity> : Controller
+    public abstract class BaseCrudController<TService, TModel, TEntity> : BaseController
         where TEntity : class, IBaseEntity
         where TModel : IBaseModel
         where TService : IBaseEntityService<TEntity, TModel>
@@ -30,11 +30,9 @@ namespace Chess.Core.Api.Controllers
             if (id == default)
                 return BadRequest();
 
-            var model = await _service.GetByIdAsync(id);
-            if (model == null)
-                return NotFound();
-
-            return Ok(model);
+            var response = await _service.GetByIdAsync(id);
+            
+            return ProcessResponse(response);
         }
 
         [HttpPost]
@@ -43,13 +41,12 @@ namespace Chess.Core.Api.Controllers
             if (model == null)
                 return BadRequest();
 
-            var savedModel = await _service.InsertAsync(model);
-            if (savedModel == null)
-                return BadRequest();
+            var response = await _service.InsertAsync(model);
+            if (!response.IsSuccessful)
+                return ProcessResponse(response);
 
             await _service.SaveChangesAsync();
-
-            return Created(Request.Path.Value, savedModel);
+            return ProcessResponse(response);
         }
 
         [HttpPut("{id}")]
@@ -58,13 +55,12 @@ namespace Chess.Core.Api.Controllers
             if (model == null)
                 return BadRequest();
 
-            var updatedModel = await _service.UpdateAsync(model);
-            if (updatedModel == null)
-                return StatusCode(500, $"Update failed.");
+            var response = await _service.UpdateAsync(model);
+            if (!response.IsSuccessful)
+                return ProcessResponse(response);
 
             await _service.SaveChangesAsync();
-
-            return Ok(updatedModel);
+            return ProcessResponse(response);
         }
 
         [HttpDelete("{id}")]
