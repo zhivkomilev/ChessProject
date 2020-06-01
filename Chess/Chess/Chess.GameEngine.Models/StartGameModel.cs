@@ -9,6 +9,6 @@ namespace Chess.GameEngine.Models
         /// </summary>
         public Guid UserId { get; set; }
 
-        public PlayerInfoModel PlayerInfo { get; set; }
+        public PlayerModel PlayerInfo { get; set; }
     }
 }

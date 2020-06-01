@@ -1,5 +1,4 @@
 ﻿using Chess.Core.DataAccess.Entities;
-using System.Collections.Generic;
 
 namespace Chess.GameEngine.DataAccess.Entities
 {

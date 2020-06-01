@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -21,6 +16,17 @@ namespace Chess.GameEngine.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddFile(@"Logs/Chess-GameEngine-{Date}.txt");
+                    logging.AddEventLog(cfg =>
+                    {
+                        cfg.LogName = "Chess.GameEngineLogs";
+                        cfg.SourceName = "Chess.GameEngine";
+                    });
+                    logging.AddConsole();
                 });
     }
 }
